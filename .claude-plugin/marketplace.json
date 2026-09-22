@@ -1,0 +1,24 @@
+{
+  "name": "rightmessage-skills",
+  "owner": {
+    "name": "RightMessage",
+    "url": "https://rightmessage.com"
+  },
+  "description": "Customer playbooks for using RightMessage through an AI assistant.",
+  "plugins": [
+    {
+      "name": "rightmessage",
+      "source": "./",
+      "displayName": "RightMessage Skills",
+      "description": "Build and verify useful segmentation, quizzes, smart CTAs, and personalized experiences with RightMessage.",
+      "homepage": "https://rightmessage.com/mcp",
+      "repository": "https://github.com/rightmessage/mcp-skills",
+      "keywords": [
+        "rightmessage",
+        "personalization",
+        "mcp"
+      ],
+      "strict": true
+    }
+  ]
+}

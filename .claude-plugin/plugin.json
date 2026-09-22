@@ -1,0 +1,21 @@
+{
+  "name": "rightmessage",
+  "displayName": "RightMessage Skills",
+  "description": "Outcome-based RightMessage playbooks for segmentation, quizzes, CTAs, personalization, measurement, and safe MCP operations.",
+  "version": "0.1.0",
+  "author": {
+    "name": "RightMessage",
+    "url": "https://rightmessage.com"
+  },
+  "homepage": "https://rightmessage.com/mcp",
+  "repository": "https://github.com/rightmessage/mcp-skills",
+  "license": "MIT",
+  "keywords": [
+    "rightmessage",
+    "personalization",
+    "segmentation",
+    "quizzes",
+    "mcp"
+  ],
+  "skills": "./skills/"
+}

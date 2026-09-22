@@ -1,0 +1,13 @@
+# Never commit local credentials, account evidence, or editor state.
+.env
+.env.*
+!.env.example
+.mcp.json
+.cursor/
+.agents/
+.claude/
+node_modules/
+.DS_Store
+__pycache__/
+*.pyc
+skills-lock.json
