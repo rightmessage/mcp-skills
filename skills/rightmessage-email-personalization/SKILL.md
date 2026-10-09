@@ -1,11 +1,11 @@
 ---
 name: rightmessage-email-personalization
-description: Use when segment data should change an email.
+description: Use when RightMessage segments or captured answers (choice or collected info such as name, country, or budget) should change an email's copy, offer, or CTA.
 license: MIT
 compatibility: Requires a connected RightMessage MCP server for account operations; without it, produce a plan only.
 metadata:
   author: RightMessage
-  version: '0.1.0'
+  version: '0.2.0'
 ---
 
 # RightMessage Email Personalization
@@ -56,6 +56,7 @@ A version change list compares its snapshot to the next state shown by `compared
 - Confirm the actual connected provider, the intended audience, the source email or purpose, tone, approved claims, and destination links.
 - Use `list-integrations` and `get-integration-data` if needed to resolve missing provider details or backing fields.
 - Record each dimension's actual field/tag/list ID or supported key, type, canonical stored values, and synchronization state.
+- Synced input answers (name, country, currency or number) are personalization inputs too. Find their ESP field in `get-question` → `syncTo` / `syncToField` / `input_settings.syncFieldMap`, and plan a default for contacts who never answered.
 - Distinguish display labels from stored values; preserve existing automations' vocabulary rather than renaming data for prettier copy.
 - Verify variable paths, escaping, condition operators, collection handling, and supported template features from provider-specific context/documentation.
 - Do not infer syntax from provider branding or assume every provider accepts Liquid. If support is unresolved, deliver clearly marked non-executable logic.

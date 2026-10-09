@@ -2,7 +2,7 @@
   "name": "rightmessage",
   "displayName": "RightMessage Skills",
   "description": "Outcome-based RightMessage playbooks for segmentation, quizzes, CTAs, personalization, measurement, and safe MCP operations.",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": {
     "name": "RightMessage",
     "url": "https://rightmessage.com"

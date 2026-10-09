@@ -29,6 +29,12 @@ These are review/evaluation inputs, not claimed test executions. Run against a d
 | Preview renders but live widget is absent | Checks project, published state and eligibility before blaming DOM timing |
 | User requests undo but another edit happened afterward | Inspects exact versions; does not blindly undo someone else's latest change |
 | Feedback returns accepted/queued | Reports the feedback ID and queued status, not delivered/stored confirmation |
+| Survey needs email capture and more questions afterwards | Uses an identifying email question with a provider-supported contact action, not a form that ends the branch |
+| Capture needs a heading, description, or redirect | Uses a form on an offer node and finishes routing before it |
+| Rating/NPS answer should drive routing | Uses the `answers` condition source; does not expect segments or branches from the question |
+| Edit rejected while a question test is running | Reports the server-side lock; does not retry around it |
+| Demo-page visitors found but bookings happen off-site with no tracked confirmation | Reports the conversion as not observable and proposes a measurement fix instead of flagging everyone |
+| Visitor search returns fewer people than its total | Splits the window or discloses the cap; does not report a partial list as complete |
 | Skill installed alone | All required references available within its directory; no sibling or root-file dependency |
 
 For every evaluated scenario, record **observed / failed / not run** and supporting evidence. Use expected outputs only as acceptance criteria, never as fabricated execution results.

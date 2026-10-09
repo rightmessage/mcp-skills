@@ -1,11 +1,11 @@
 ---
 name: rightmessage-optimization
-description: Use when measuring RightMessage or planning a funnel test.
+description: Use when measuring RightMessage flows, questions, offers, or campaigns, diagnosing drop-off, or planning, running, and reading a split test.
 license: MIT
 compatibility: Requires a connected RightMessage MCP server for account reads or draft builds. Without a connection, provide a plan from supplied material only. Works with any Agent Skills-capable client.
 metadata:
   author: RightMessage
-  version: '0.1.0'
+  version: '0.2.0'
 ---
 
 # RightMessage optimization
@@ -42,10 +42,11 @@ A version change list compares its snapshot to the next state shown by `compared
 
 ### 2. Establish the measurement contract
 
-- Discover relevant `get-data-status`, `get-flow-performance`, `get-offer-performance`, `get-campaign-performance`, `get-traffic-analytics`, `get-audience-breakdown`, `get-segment-engagement`, and goal reads. Consult `get-optimization-playbook` for ideas, not mandatory benchmarks.
+- Discover relevant `get-data-status`, `get-flow-performance`, `get-flow-engagements`, `get-offer-performance`, `get-campaign-performance`, `get-split-test-metrics`, `get-traffic-analytics`, `get-audience-breakdown`, `get-segment-engagement`, and goal reads. Consult `get-optimization-playbook` for ideas, not mandatory benchmarks.
 - Set exact `date_from` / `date_to` and timezone where supported. State inclusive/exclusive boundaries, retrieval time, freshness, eligible population, exposure unit, conversion unit, deduplication, and attribution window as exposed by the schema; mark unavailable semantics unknown.
 - Record requested and returned windows. Reporting endpoints can round or restrict dates and describe different populations; do not merge incompatible buckets. Check whether an engagement report excludes anonymous visitors or non-answerers.
 - Separate exposures, starts, answers, completed paths, identified contacts, offer views, form submissions, and confirmed conversions. Document numerator and denominator for every reported rate.
+- For questions, use the answer-rate funnel: shown → answered / skipped / closed without answering (answer rate = answered ÷ shown). `get-flow-engagements` reports run outcomes (completed, closed, abandoned), where people stopped, and email-question identification. Metrics that need newly captured events can be unavailable for older ranges; unavailable is not zero.
 - Inspect the actual confirmed-success goal and its attachment to the intended asset. A button click is a diagnostic, not proof of purchase or booking; a goal's existence does not establish valid measurement.
 - Verify eligible exposure, tracking recency, and baseline production/draft state. Retry broad failed reads with smaller sections; missing data and failed calls are not zero results.
 - **Checkpoint:** fill the measurement section of [the experiment record](templates/experiment-record.md), including limitations that could invalidate comparison.
@@ -71,7 +72,8 @@ A version change list compares its snapshot to the next state shown by `compared
 - Compare contemporaneous traffic with the same eligibility and assignment rules. Check repeat-visitor assignment and exposure reporting; before/after and segment comparisons remain observational without a design supporting causality.
 - Discover `create-split-test` and related read/start/end schemas. Use only supported `resource_type` values and an existing verified `resource_id`; do not invent a question-level test when an opener change needs a supported flow variant.
 - The control is implicit in split tests: do not include it as an extra variant. Traffic is balanced across control and variants; do not promise arbitrary allocation weights.
-- Keep flow tests to one non-control variant with its complete `funnelDefinition` under the current limited flow-test contract. Confirm the live schema before construction; do not submit partial branches or assume unrestricted variants.
+- Question tests cover choice and input questions, with one to three variants and at most one draft or running test per question. Choice variants override text, description, and answer wording; input variants override text and description. While a test runs, wording, answers, display, behavior, and Auto-Segment rules are locked server-side; sync, internal name, and flow membership stay editable. Ending requires a winner; the winner's text, description, and answer wording are promoted to draft.
+- Flow tests accept up to four variants, each with a complete `funnelDefinition`. Confirm the live schema before construction; do not submit partial branches.
 - Campaign holdout and resource split tests are different mechanisms. Inspect the campaign's current `testing` contract instead of transplanting split-test payloads or a generic holdback percentage.
 - Change the smallest coherent treatment. A redesigned page or flow may test a single proposition, but cannot isolate the effect of every changed element.
 - Do not invent sample-size targets, statistical significance, or guaranteed lift. If a defensible power/sample calculation is unavailable, document a pragmatic review horizon and the limits on any conclusion.
@@ -121,7 +123,7 @@ Use [the experiment record](templates/experiment-record.md) for a baseline, repa
 - Testing a new opener while tracking, identity, routing, or the primary goal is broken.
 - Treating completion counts as confirmed conversions, or whole-site visitors as eligible exposures.
 - Comparing different reporting windows, anonymous/identified populations, or ad audiences as a controlled test.
-- Duplicating implicit control, inventing test types/weights, or assuming flow tests accept many variants.
+- Duplicating implicit control, inventing test types/weights, or exceeding the live variant limits (three for question tests, four for flow tests).
 - Ending early for an attractive point estimate, or reporting a promoted draft winner as live.
 
 ## Completion checks

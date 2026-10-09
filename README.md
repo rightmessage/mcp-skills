@@ -61,6 +61,7 @@ Skills supply the method. MCP supplies account access and tools. Without a conne
 | [Paid-traffic message match](skills/rightmessage-paid-traffic/SKILL.md) | Make a landing page follow through on the ad that earned the click | Verified signal contract, a small set of treatments, and fallback tests |
 | [Email personalization](skills/rightmessage-email-personalization/SKILL.md) | Actually use captured answers in follow-up | Provider-aware template, useful defaults, and a branch review—not a sent email |
 | [Optimization](skills/rightmessage-optimization/SKILL.md) | Understand results and choose a defensible experiment | Measurement checks, funnel diagnosis, and a controlled test/readout |
+| [High-intent visitors](skills/rightmessage-high-intent-visitors/SKILL.md) | Spot known contacts who viewed pricing, demo, booking, or checkout but didn't convert | A ranked, evidence-backed list with a next step per person, runnable as a recurring alert |
 
 Start with the job you already have. You do not need to run an audit before every small change or install every skill.
 
@@ -74,6 +75,7 @@ Start with the job you already have. You do not need to run an audit before ever
 - “Check these real ad-click URLs, then propose two message-matched treatments for this landing page. Don't edit our ads.”
 - “Turn these survey answers into a personalized welcome email. Use our actual platform's syntax and don't send it.”
 - “Is this flow losing people at the opener or after the result? Show the evidence before recommending a test.”
+- “Who looked at our demo or pricing page this week but didn't book? Suggest a next step for each.”
 - “Preview works but the live widget is missing. Find the first unverified step before changing anything.”
 
 ## How the skills work

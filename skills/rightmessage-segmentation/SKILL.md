@@ -1,11 +1,11 @@
 ---
 name: rightmessage-segmentation
-description: Use when segmenting new leads or an existing list.
+description: Use when designing or building a RightMessage survey that segments leads or collects contact details (email, phone, name, budget), including ESP writeback and mid-flow identification.
 license: MIT
 compatibility: Requires a connected RightMessage MCP server for account reads and writes. Planning works without a connection; browser and ESP/CRM access are needed for end-to-end verification.
 metadata:
   author: RightMessage
-  version: '0.1.0'
+  version: '0.2.0'
 ---
 
 # RightMessage segmentation
@@ -39,14 +39,42 @@ Deliver a scoped survey draft and a verified data-to-action path, not a larger c
 12. Never publish without explicit approval of the complete current project diff, activation states, completed QA, and rollback plan.
 
 Without a connection, produce the worksheets and copy with unresolved IDs marked as unresolved. Do not claim account verification.
-Read `get-survey-builder-guide` and live operation schemas before building; use the [local worksheet](references/question-and-writeback-worksheet.md) throughout.
+Read `get-survey-builder-guide` for methodology and live operation schemas before building. Treat the guide as methodology only: its tool names (`list_dimensions`), its “dropdown” value (use `list`), and “Collect email = Form node” are out of date, and live schemas govern; use the [local worksheet](references/question-and-writeback-worksheet.md) throughout.
 
 A version change list compares its snapshot to the next state shown by `compared_to`. Paginating one transition does not establish the full draft-versus-production diff. Account for the published baseline and every relevant later transition/current resource, or use dashboard review; stop publication if the full pending scope remains unknown.
+
+## Question types
+
+RightMessage questions either segment visitors or collect information. Confirm field names against the live `create-question` / `get-question` schemas before writing.
+
+| Kind | Build with | Shape |
+| --- | --- | --- |
+| Choice (segmenting) | `create-segment-group` with `auto_create_question=true`, or `create-question` linked to an existing group | `display_type` `buttons`, `image`, or `list` (dropdown); each option maps to a segment and can branch. Yes/No is a two-option choice preset. |
+| Collecting info (input) | `create-question` | `display_type: input`, an `input_type`, no segment group, empty options; settings in `input_settings` (camelCase keys). |
+
+- Input types: `text`, `textarea`, `number`, `email`, `phone`, `name`, `address`, `country`, `url`, `date`, `rating`, `nps`. Number covers plain, currency, and percentage through `input_settings.numberType`.
+- The tool schema leaves `input_settings` untyped. Read an existing question with `get-question` to confirm the key shape before writing; do not guess keys.
+- Input answers create no segments and no per-answer branches. Rating and NPS store numbers only; route on them, and on any other input answer, with the `answers` condition source from `list-condition-sources` (number ranges, email business/personal or domain, phone/address country), not segments.
+- Open-ended choice questions are legacy; existing ones keep working, but do not create new ones. Use a `text` or `textarea` input question for free text.
+- Map name and address parts with `input_settings.syncFieldMap` (part → field ID). Discover field IDs with `get-integration-data`; never guess them.
+- While a question split test is running, wording, answers, display, behavior, and Auto-Segment rules are locked server-side. A rejected save is expected; do not retry around it.
+
+## Choosing a capture step
+
+Both options are valid; choose by what should happen after the email is collected.
+
+| Use | When | Notes |
+| --- | --- | --- |
+| Email question with `input_settings.identify: true` | The conversation should continue after capture | Identifies the visitor mid-flow through the configured `contactAction` (contact, form, list, or tag, as the provider requires; for example Kit needs a form or tag, Mailchimp an audience). Later questions, routing, and offers can follow. Phone numbers never identify. |
+| Form (`create-form`) on an `offer` node | You want a heading and description around the capture, or a redirect onward after submission | A form is an `offer` node referencing the form, not a node of type `form`. It ends its branch: only a message or redirect can follow. Finish questions, scoring, assignment, and routing before it. |
+
+- If consent is required, set `input_settings.consent.checkbox.enabled` and its label (and optionally `consent.disclosure`). An unticked checkbox records the answer with no ESP write or identification; test that case.
+- Verify identification and writeback with an approved test contact either way; configured identification is not verified identification.
 
 ## 1. Choose an entry path and a useful finish
 
 - **Post-opt-in:** preserve the promised download or confirmation; offer guidance alongside it rather than holding it hostage to answers.
-- Trace the actual opt-in provider, redirect, survey page, and supported identification handoff. A contact existing in the ESP does not identify this browser.
+- Trace the actual opt-in provider, redirect, survey page, and supported identification handoff. A contact existing in the ESP does not identify this browser; an identifying email question inside the survey can, if one is part of the approved design.
 - **Existing list:** use a dedicated survey page and a reviewed, provider-supported subscriber identification mechanism.
 - Offer an anonymous-safe path for forwarded links, missing identity, or new visitors; never guess a contact from an untrusted URL value.
 - Skip redundant opt-in and known answers unless the person is deliberately updating their preferences.
@@ -81,7 +109,7 @@ For every dimension complete this map before writing questions:
 - Only the sales branch needs “What do you sell?” if services and digital products genuinely lead to different resources.
 - Ask about working alone versus with a team only when it changes the recommended implementation material.
 - Prefer single choice for one dominant route; allow multi-select for genuinely independent interests with explicit priority, conflict, and storage rules.
-- Keep optional “Other” or free-text feedback later; do not turn arbitrary prose into segments automatically.
+- Keep optional “Other” or free-text feedback later, as a `text`/`textarea` input question or a choice question's “Other” write-in; do not turn arbitrary prose into segments automatically.
 - Preview answer-dependent wording combinations. Keep surrounding page copy focused on the respondent's benefit and remove competing calls to action only with approval.
 - Deliver exact question text, every choice, show/skip rules, and final recommendation copy using the local worksheet.
 
@@ -97,7 +125,8 @@ For every dimension complete this map before writing questions:
 - Inspect `sync_mode` semantics in the live schema; `field`/`tag` are not read/write directions.
 - Define blank, unknown, changed-answer, and returning-contact behavior. Never overwrite a known field with a blank by default.
 - Structured providers may require an actual field ID; key-based providers may accept a key. Discover, do not guess.
-- Record the supported identification mechanism, where it occurs, and the exact field/value expected for an approved test contact.
+- Record the supported identification mechanism, where it occurs, and the exact field/value expected for an approved test contact. For an identifying email question, record its `contactAction`, consent settings, and the provider capability that supports them.
+- For input questions, record each answer's destination field (`sync_to_field`, or `syncFieldMap` for name/address parts).
 - If a new provider field is needed, stop at the immediate-write permission gate, then read the created field back before mapping it.
 
 **Exit check:** each stored value has a verified destination or an explicitly unresolved owner action.
@@ -108,11 +137,11 @@ For every dimension complete this map before writing questions:
 2. Prefer `create-flow-from-description` for a new flow. Include approved copy, known-data reuse, branching, fallbacks, field mapping, and placement requirements.
 3. Treat generated resources as candidates: read back every returned group, question, offer/form, flow, and widget against the specification.
 4. Modify an existing flow with discovered modification operations rather than regenerating it and leaving duplicates.
-5. For deliberate manual construction, use `create-segment-group` with `auto_create_question=true` where appropriate; verify the linked question and asking-node settings.
+5. For deliberate manual construction, use `create-segment-group` with `auto_create_question=true` for choice questions and `create-question` with `display_type: input` for collecting-info questions; verify the linked question and asking-node settings.
 6. Capture returned IDs before dependent calls. Discover condition sources and use `validate-condition` for proposed conditions; do not invent condition shorthand.
 7. Preserve complete arrays on replacement-style updates, including the full `signals` array for `update-segment-group`.
-8. Use `create-form` for capture, `create-offer` for link CTAs. A form is an `offer` node referencing the form, not a node of type `form`.
-9. Assign persistent results and finish routing before capture; only a message or redirect may follow a form on its branch.
+8. Choose the capture step using “Choosing a capture step” above: an identifying email question when the conversation continues, or `create-form` on an `offer` node when you want a heading/description or a redirect. Use `create-offer` for link CTAs.
+9. If a form is used, assign persistent results and finish routing before it; only a message or redirect may follow a form on its branch.
 10. Link a new disabled widget with `flow_id`, not `contentId`; record actual placement and any separately authorized website work.
 11. After ambiguous errors, inventory the draft before retrying. Do not delete or recreate objects blindly.
 12. Read `get-flow-summary` for traversal and branch behavior; flat `get-flow` inventory alone does not verify execution order.

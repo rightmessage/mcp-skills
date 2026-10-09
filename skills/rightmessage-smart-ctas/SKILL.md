@@ -1,11 +1,11 @@
 ---
 name: rightmessage-smart-ctas
-description: Use when visitors need different next-step CTAs.
+description: Use when visitors should see different next-step CTAs, offers, or popups based on data RightMessage already has (lifecycle, ESP fields or tags, segments, previous answers, page context).
 license: MIT
 compatibility: Requires a connected RightMessage MCP server for account operations; without it, produce a plan only.
 metadata:
   author: RightMessage
-  version: '0.1.0'
+  version: '0.2.0'
 ---
 
 # RightMessage Smart CTAs
@@ -66,6 +66,7 @@ A version change list compares its snapshot to the next state shown by `compared
 - Verify the exact operation/provider supports the chosen mapping; tag-capable forms do not prove tag-capable dimension sync.
 - Inspect `sync_mode` semantics: values such as field/tag describe mapping modes, not read/write direction.
 - Discover supported condition types and validate complete conditions with `validate-condition`; do not copy guide shorthand as payloads.
+- Previous input answers are usable signals through the `answers` condition source: business versus personal email, email domain, phone/address country, number ranges such as budget. Missing answers fail comparisons; define the unknown route.
 - Define missing, invalid, stale, multi-valued, and conflicting-signal behavior. Unknown identity is not proof of a new lead.
 
 ### 3. Make precedence and suppression explicit

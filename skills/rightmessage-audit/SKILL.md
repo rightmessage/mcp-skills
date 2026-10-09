@@ -1,11 +1,11 @@
 ---
 name: rightmessage-audit
-description: Use when auditing RightMessage or choosing a first win.
+description: Use when auditing a RightMessage project, reviewing what is working or broken, or choosing the highest-value first or next improvement.
 license: MIT
 compatibility: Requires a connected RightMessage MCP server for account reads or draft builds. Without a connection, provide a plan from supplied material only. Works with any Agent Skills-capable client.
 metadata:
   author: RightMessage
-  version: '0.1.0'
+  version: '0.2.0'
 ---
 
 # RightMessage audit
@@ -47,6 +47,7 @@ A version change list compares its snapshot to the next state shown by `compared
 - Agree a reporting window; absent a request, use the last 30 complete calendar days in a stated project/user timezone. Resolve exact dates with an available date tool, not memory.
 - Use relevant `get-traffic-analytics`, `get-flow-performance`, `get-offer-performance`, `get-campaign-performance`, `get-audience-breakdown`, and `get-segment-engagement` capabilities. Retry failed broad reads with narrower sections; errors are not zeros.
 - Inspect the important flows through `get-flow-summary`, linked questions, forms/offers, widget bindings, campaigns, conditions, and goals. An object count does not prove deployment or usefulness.
+- Include collecting-info questions (`list-questions`), not just segment groups. Use `get-flow-engagements` for run outcomes (completed, closed, abandoned), where people stopped, and email-question identification, and the answer-rate funnel (shown → answered / skipped / closed) where available. Unavailable coverage for older ranges is not zero.
 - Record actual exposure pages where available; an inline widget's configuration alone does not prove where it is embedded or seen.
 - For every metric, retain source, retrieval/freshness information, requested and returned dates, timezone, population, numerator, denominator, and limitations. Calculate rates with an available calculator or code tool.
 - **Checkpoint:** evidence distinguishes visitors, exposures, answerers, completions, and confirmed conversions; missing or inaccessible evidence is explicitly unverified.

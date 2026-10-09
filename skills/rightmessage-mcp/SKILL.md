@@ -5,7 +5,7 @@ license: MIT
 compatibility: Requires an MCP-capable client and an authorized RightMessage connection for account operations. Browser or website-builder access is optional and separate.
 metadata:
   author: RightMessage
-  version: "0.1.0"
+  version: "0.2.0"
 ---
 
 # RightMessage MCP operations
@@ -25,7 +25,7 @@ For strategy questions, stay read-only and identify the desired business outcome
 
 1. Check the client's registered MCP servers, tools, and resources. Use `https://api.rightmessage.com/mcp/rightmessage` with Streamable HTTP; prefer hosted OAuth with the `mcp:use` scope. Follow the [current connection guide](https://rightmessage.com/mcp#setup) for the actual client.
 2. Use the client's secure credential UI/configuration for bearer-token fallback. Never ask the user to paste a token in chat, commit it, or put it in a preview URL. Installing this skill does not connect MCP.
-3. Read the `rightmessage://config/overview` resource to identify accessible projects. There is no assumed `list-projects` tool. If the client cannot read resources, ask for the public project ID from RightMessage's dashboard/Tracking Snippet settings, then verify it with `get-project-context`.
+3. Read the `rightmessage://config/overview` resource to identify accessible projects. There is no assumed `list-projects` tool. If the client cannot read resources, use `set-active-project` / the auto-selected project and confirm its name and site with `get-project-context` before any write, or ask for the public project ID from RightMessage's dashboard/Tracking Snippet settings and verify it the same way.
 4. Confirm the project name and website. If several match, ask; never choose a production account by guesswork. Use `set-active-project` if useful, but still pass the exact `project_id` to project-scoped calls, even where optional.
 5. Discover current schemas before calling tools. Names below are canonical; clients may add prefixes or change hyphens to underscores. Never embed a particular connector's internal address. Never depend on administrator tools.
 6. Make a read-only call and inspect both the transport result and underlying MCP error/content. Catalog presence alone does not prove authentication works.
@@ -59,6 +59,7 @@ See [safety and recovery](references/safety-and-recovery.md) before publishing, 
 - Preserve complete replacement arrays. In particular, `update-campaign.changes` replaces all variants/actions; `update-segment-group.signals` replaces all signals. Merge against the latest read, not a stale partial list.
 - After every mutation, read the exact resource back. Verify identity, references, counts, targeting, enabled/active state, and the intended difference. Reconcile partial success before retrying; do not create duplicates blindly.
 - If another edit appeared since the baseline, stop and reconcile it. Do not overwrite work to make your manifest match.
+- A save rejected because a question split test is running is expected: wording, answers, display, behavior, and Auto-Segment rules are locked until the test ends. Do not retry around it; report it or end the test only with separate approval.
 
 ## 4. Verify the changed surface
 

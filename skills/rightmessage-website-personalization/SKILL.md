@@ -5,7 +5,7 @@ license: MIT
 compatibility: "Any Agent Skills-compatible client. A live RightMessage MCP connection is required for account operations; browser access or user-run checks are needed for visual and functional QA."
 metadata:
   author: "RightMessage"
-  version: "0.1.0"
+  version: "0.2.0"
 ---
 
 # Website personalization
@@ -53,7 +53,7 @@ A version change list compares its snapshot to the next state shown by `compared
 - Record the signal key/source, allowed values, observed evidence, lifetime, precedence, and absent/invalid/conflicting behavior.
 - Prefer explicit, stable signals; a referral or ad angle describes context, not a visitor's personal attributes. Never infer sensitive traits from a click.
 - For arrival signals, inspect the actual resolved URL. Use legacy inference only if an approved higher-priority key is absent, not when it is present but invalid.
-- Discover `list-condition-sources` and validate final conditions with `validate-condition`. Use the current DNF structure `{or:[{and:[...]}]}` and supported operators.
+- Discover `list-condition-sources` and validate final conditions with `validate-condition`. Use the current DNF structure `{or:[{and:[...]}]}` and supported operators. Campaign rules can also use the `answers` source for previous input answers (for example business email, country, or budget range).
 - New pageview/landing-page path conditions use pathname-only values; put query-parameter checks in separate conditions. Choose a supported lifetime appropriate to the signal, not permanent history for temporary arrival context.
 - If new segments are approved, capture returned group/segment IDs before building dependent signals. Replacement `signals` arrays must retain all intended existing entries; read back the entire group.
 - **Checkpoint:** every cohort has real evidence, validated rules, actual IDs, and tested negative cases.
