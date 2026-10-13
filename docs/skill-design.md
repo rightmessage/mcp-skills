@@ -12,6 +12,7 @@ RightMessage can collect answers, infer useful context, route visitors, adapt pa
 - **Audit** selects the business problem and first useful implementation; it is read-only by default.
 - **Segmentation** enriches and guides new or existing leads. **Quiz builder** delivers a promised recommendation or assessment result. They share data objects but differ in the visitor's job.
 - **Smart CTAs** choose an offer using known data. **Website personalization** changes an existing page.
+- **System Flows** run always-on page-view logic without a widget. Core skills stay generic: they never name Senja or any other specific integration, because most accounts will not connect one. Integration-specific steps live in an add-on skill loaded only when that integration is connected.
 - **Paid traffic** is separate because validating the arrival signal and preserving the ad promise are substantial tasks before any page variant should be built.
 - **Email personalization** turns collected information into an actual follow-up artifact without pretending to send it.
 - **Optimization** evaluates a defined implementation and its measurement; it does not create a large backlog of speculative segments.

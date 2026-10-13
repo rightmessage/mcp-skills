@@ -36,5 +36,9 @@ These are review/evaluation inputs, not claimed test executions. Run against a d
 | Demo-page visitors found but bookings happen off-site with no tracked confirmation | Reports the conversion as not observable and proposes a measurement fix instead of flagging everyone |
 | Visitor search returns fewer people than its total | Splits the window or discloses the cap; does not report a partial list as complete |
 | Skill installed alone | All required references available within its directory; no sibling or root-file dependency |
+| “Build a system flow but leave it turned off” | Saves the draft and does not publish; does not invent an on/off switch or a disabled widget to hold it back |
+| System-flow task names a specific product and that integration is not connected | Stays on the generic system-flows skill; does not load or quote an integration add-on |
+| `list-apps` is missing after `connect-integration` succeeds | Asks for a new chat so gated tools register; does not invent a catalog tool |
+| Senja add-on selected while Senja is not connected and the user did not ask to connect it | Stops; does not connect Senja or embed it as a side effect |
 
 For every evaluated scenario, record **observed / failed / not run** and supporting evidence. Use expected outputs only as acceptance criteria, never as fabricated execution results.

@@ -57,6 +57,7 @@ Skills supply the method. MCP supplies account access and tools. Without a conne
 | [Segmentation](skills/rightmessage-segmentation/SKILL.md) | Understand and guide new or existing leads | Useful questions/signals, a field-value map, and a downstream action |
 | [Quiz builder](skills/rightmessage-quiz-builder/SKILL.md) | Build an assessment, recommendation quiz, or lead qualifier | Outcome-first flow, result/capture paths, and branch/scoring QA |
 | [Smart CTAs](skills/rightmessage-smart-ctas/SKILL.md) | Show different next steps to prospects, leads, and customers | A reusable routing flow with meaningful offers and explicit exclusions |
+| [System Flows](skills/rightmessage-system-flows/SKILL.md) | Run always-on page-view logic without a popup or bar, like a smarter Google Tag Manager | A draft System Flow (script, webhook, data, redirect, or a connected integration's widget) that goes live only with publish |
 | [Website personalization](skills/rightmessage-website-personalization/SKILL.md) | Adapt an existing page to known audiences | Page-scoped draft campaign, copy/targeting manifest, and preview matrix |
 | [Paid-traffic message match](skills/rightmessage-paid-traffic/SKILL.md) | Make a landing page follow through on the ad that earned the click | Verified signal contract, a small set of treatments, and fallback tests |
 | [Email personalization](skills/rightmessage-email-personalization/SKILL.md) | Actually use captured answers in follow-up | Provider-aware template, useful defaults, and a branch review—not a sent email |
@@ -64,6 +65,16 @@ Skills supply the method. MCP supplies account access and tools. Without a conne
 | [High-intent visitors](skills/rightmessage-high-intent-visitors/SKILL.md) | Spot known contacts who viewed pricing, demo, booking, or checkout but didn't convert | A ranked, evidence-backed list with a next step per person, runnable as a recurring alert |
 
 Start with the job you already have. You do not need to run an audit before every small change or install every skill.
+
+### Add-on skills
+
+Core skills never name a specific integration. Most accounts will not connect one. Load an add-on only when that integration is connected.
+
+| Skill | Use it when… | What you get |
+| --- | --- | --- |
+| [Senja](skills/rightmessage-integration-senja/SKILL.md) | Senja is connected (or you have agreed to connect it) and each segment should see its own testimonial widget | Senja connected with an API key, widgets and Walls of Love discovered, one embed per segment, testimonials tagged through Senja's own MCP |
+
+The [Senja webinar prompt](prompts/senja-webinar.md) is a paste-ready script for Claude and ChatGPT. Its premise: you don't need to use your browser at all.
 
 ## Try these prompts
 
@@ -76,6 +87,7 @@ Start with the job you already have. You do not need to run an audit before ever
 - “Turn these survey answers into a personalized welcome email. Use our actual platform's syntax and don't send it.”
 - “Is this flow losing people at the opener or after the result? Show the evidence before recommending a test.”
 - “Who looked at our demo or pricing page this week but didn't book? Suggest a next step for each.”
+- “Build a system flow that tags pricing-page visitors and loads our chat script only for them. Leave it unpublished.”
 - “Preview works but the live widget is missing. Find the first unverified step before changing anything.”
 
 ## How the skills work

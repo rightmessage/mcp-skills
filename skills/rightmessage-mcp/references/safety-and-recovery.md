@@ -22,7 +22,7 @@ Before `publish-config`, document:
 | Scope | Exact public project, target website, requested change |
 | Baseline | Last published state and existing pending edits |
 | Full change set | All intended and unrelated pending edits accounted for; change pagination complete |
-| Runtime eligibility | Campaign active flags, widget enabled flags, flow binding, page/audience exclusions |
+| Runtime eligibility | Campaign active flags, widget enabled flags, flow binding, page/audience exclusions. A System Flow has no widget and no on/off flag; publishing the pending config is what makes it run |
 | Dependencies | Linked questions, segments, forms, offers, goals and external page/embed exist |
 | Quality | Reviewed copy, mobile/desktop, natural fallback, links/forms, confirmed-success goal |
 | Recovery | Known-good version and specific restore/re-publish procedure |
