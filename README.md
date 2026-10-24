@@ -37,6 +37,10 @@ In Claude Code:
 
 The plugin bundles the same skills; it does not install credentials or connect your account. In Claude surfaces that support adding custom plugin marketplaces, add `https://github.com/rightmessage/mcp-skills` and select **RightMessage Skills**. Availability depends on your client and plan; use its current plugin instructions. Do not assume installing a marketplace enables MCP access.
 
+### Agent Plugins
+
+[`plugin.json`](plugin.json) and [`mcp.json`](mcp.json) package the skills and the remote RightMessage MCP server as an [Agent Plugin](https://agent-plugins.org/specification). Your client handles OAuth sign-in. AI coding agents contributing here should read [AGENTS.md](AGENTS.md).
+
 ### Connect RightMessage separately
 
 1. Open your assistant's MCP/connector settings.

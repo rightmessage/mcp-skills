@@ -1,0 +1,15 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "rightmessage",
+  "version": "0.3.0",
+  "description": "Outcome-based RightMessage playbooks for segmentation, quizzes, CTAs, system flows, personalization, measurement, and safe MCP operations.",
+  "author": {
+    "name": "RightMessage",
+    "email": "support@rightmessage.com",
+    "url": "https://rightmessage.com"
+  },
+  "homepage": "https://rightmessage.com/mcp",
+  "repository": "https://github.com/rightmessage/mcp-skills",
+  "license": "MIT",
+  "keywords": ["rightmessage", "personalization", "segmentation", "quizzes", "mcp"]
+}
