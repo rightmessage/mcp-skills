@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "rightmessage",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Outcome-based RightMessage playbooks for segmentation, quizzes, CTAs, system flows, personalization, measurement, and safe MCP operations.",
   "author": {
     "name": "RightMessage",

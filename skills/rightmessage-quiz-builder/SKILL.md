@@ -5,7 +5,7 @@ license: MIT
 compatibility: Requires an authorized RightMessage MCP connection for account work. Website deployment and ESP verification require separate access; otherwise deliver an explicit handoff.
 metadata:
   author: RightMessage
-  version: "0.2.0"
+  version: "0.2.1"
 ---
 
 # RightMessage quiz builder
@@ -95,6 +95,7 @@ Use the [quiz blueprint](templates/quiz-blueprint.md) throughout.
 - Start with an easy, relevant opener and short recognizable answers. Explain the visitor's benefit on the surrounding page.
 - Ask only what changes advice, eligibility, result, or next step. Several easy questions can derive one dimension; the conversation need not mirror the database.
 - Branch to relevant follow-ups rather than forcing everyone through every question. Do not impose an arbitrary universal question count.
+- Split on a question only when most of its answers lead to their own follow-up (say, 3–4 answers that each get one). When only one or a few answers of a longer list need something extra (a "None" among ten email platforms, say), ask the question without a split and follow it with a `yesno` condition on those answers (`segments` source, checked with `validate-condition`): `yes` holds what only they get, `no` stays empty, and everyone continues to the next step. Never leave per-answer branches empty, and never chain one condition per answer of the same question; that is a split.
 - Prefer single choice for one dominant route. Use multi-select only with explicit overlap, score contribution, and routing priority rules.
 - Keep optional free text later, as a `text`/`textarea` input question. Do not automatically transform arbitrary text into new segments.
 - Rating and NPS questions produce numbers, not segments or branches. Score or route on them through the `answers` condition source, and test the boundaries.

@@ -5,7 +5,7 @@ license: MIT
 compatibility: Requires a connected RightMessage MCP server for account reads and writes. Planning works without a connection; browser and ESP/CRM access are needed for end-to-end verification.
 metadata:
   author: RightMessage
-  version: '0.2.0'
+  version: '0.2.1'
 ---
 
 # RightMessage segmentation
@@ -105,6 +105,7 @@ For every dimension complete this map before writing questions:
 
 - Start with an easy question whose benefit is obvious; use short, recognizable answer choices.
 - Branch into relevant follow-ups rather than imposing a fixed question count. Several easy questions can derive one useful dimension.
+- Split on a question only when most of its answers lead to their own follow-up (say, 3–4 answers that each get one). When only one or a few answers of a longer list need something extra (a "None" among ten email platforms, say), ask the question without a split and follow it with a `yesno` condition on those answers (`segments` source, checked with `validate-condition`): `yes` holds what only they get, `no` stays empty, and everyone continues to the next step. Never leave per-answer branches empty, and never chain one condition per answer of the same question; that is a split.
 - Example opener: “What would you like help with first?” with “Attract new subscribers”, “Turn subscribers into customers”, and “I'm exploring”.
 - Only the sales branch needs “What do you sell?” if services and digital products genuinely lead to different resources.
 - Ask about working alone versus with a team only when it changes the recommended implementation material.
