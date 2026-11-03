@@ -2,6 +2,17 @@
 
 Guidance for AI coding agents working in this repository.
 
+## Pre-push review (mandatory)
+
+Before any push or PR (this repo commits straight to `main`), follow [docs/agents/pre-push-review.md](docs/agents/pre-push-review.md):
+
+- The same orb spawns a reviewer subagent (Task tool, not a new orb or thread) on the strongest model available. It gets only the base ref, the diff, the repo, the one-line goal, and the checklist, not the author's plan or reasoning.
+- The reviewer does a whole-repo impact hunt (`rg` every dependent of each changed skill, file, anchor, tool name, or manifest key) and answers every line of the fixed checklist.
+- Run the discovery, validation, and install checks (see [Evaluation](#evaluation) and the checklist); record commands and results.
+- The author fixes each finding and the reviewer re-checks. Push only when every finding is fixed or justified in writing.
+- Put the review summary in the commit message body (or the PR body if a PR is used) and the final report.
+- Never request, tag, or re-request Greptile (@greptile-apps, @codesmith) on normal changes. When Greptile, a human, or a production bug catches a miss, append it to the checklist's "Misses caught by Greptile" table.
+
 ## Structure
 
 - `skills/<name>/SKILL.md` — one self-contained Agent Skill per customer job, with optional local `references/` and `templates/`.
@@ -9,6 +20,7 @@ Guidance for AI coding agents working in this repository.
 - `.claude-plugin/` — Claude Code plugin and marketplace metadata.
 - `docs/skill-design.md` — why skills are organized by outcome and where their boundaries sit.
 - `docs/evaluation-scenarios.md` — behavioral review scenarios.
+- `docs/agents/` — agent process docs, such as the pre-push review checklist. Not skills; never discovered or installed as skills.
 - `prompts/` — prompt material.
 
 ## Authoring skills
