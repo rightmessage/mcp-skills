@@ -1,11 +1,11 @@
 ---
 name: rightmessage-optimization
-description: Use when measuring RightMessage flows, questions, offers, or campaigns, diagnosing drop-off, or planning, running, and reading a split test.
+description: Use when asking whether RightMessage personalization is working, reading a campaign holdback, measuring flows, questions, offers, or campaigns, diagnosing drop-off, or planning, running, and reading a split test.
 license: MIT
 compatibility: Requires a connected RightMessage MCP server for account reads or draft builds. Without a connection, provide a plan from supplied material only. Works with any Agent Skills-capable client.
 metadata:
   author: RightMessage
-  version: '0.2.0'
+  version: '0.3.0'
 ---
 
 # RightMessage optimization
@@ -63,6 +63,11 @@ A version change list compares its snapshot to the next state shown by `compared
 | Too little eligible traffic or unreliable comparison | Prefer a verified usability/routing repair or continued observation over an underpowered experiment. |
 
 - Check actual exposure pages; inline configuration does not prove placement. Empty UTM rollups do not prove absence of tagged visits.
+- **When the result happens somewhere else** (a Shopify or other hosted checkout, a Stripe payment link, a form tool, a booking tool, a course platform, an app on another subdomain), measure it where the visitor lands afterwards:
+  - A thank-you or confirmation page the business controls, with the RightMessage script on it, becomes a pageview goal. Order or booking IDs in the path need a goal that matches the path pattern, not one exact URL.
+  - If the checkout's own thank-you page can run scripts (many hosted checkouts allow a custom script or pixel), install the RightMessage script there, or fire a custom event goal from it using the method the current goal schema documents.
+  - If neither is possible, measure the last step you can see (reached checkout, clicked Apply) and label it as that step, never as a sale.
+  - Confirm the script loads on every domain involved; tracking being live on the main site says nothing about the checkout domain. Then check the goal records real conversions after publishing before using it to judge anything.
 - Preserve working paths and known data. Ask only questions that change what happens next, and keep a useful unknown-value fallback.
 - **Checkpoint:** distinguish observation, suspected explanation, and proposed repair; if measurement is broken, stop the experiment path here.
 
@@ -72,8 +77,8 @@ A version change list compares its snapshot to the next state shown by `compared
 - Compare contemporaneous traffic with the same eligibility and assignment rules. Check repeat-visitor assignment and exposure reporting; before/after and segment comparisons remain observational without a design supporting causality.
 - Discover `create-split-test` and related read/start/end schemas. Use only supported `resource_type` values and an existing verified `resource_id`; do not invent a question-level test when an opener change needs a supported flow variant.
 - The control is implicit in split tests: do not include it as an extra variant. Traffic is balanced across control and variants; do not promise arbitrary allocation weights.
-- Question tests cover choice and input questions, with one to three variants and at most one draft or running test per question. Choice variants override text, description, and answer wording; input variants override text and description. While a test runs, wording, answers, display, behavior, and Auto-Segment rules are locked server-side; sync, internal name, and flow membership stay editable. Ending requires a winner; the winner's text, description, and answer wording are promoted to draft.
-- Flow tests accept up to four variants, each with a complete `funnelDefinition`. Confirm the live schema before construction; do not submit partial branches.
+- Question tests cover choice and input questions, within the variant limit the live schema enforces, and at most one draft or running test per question. Choice variants override text, description, and answer wording; input variants override text and description. While a test runs, wording, answers, display, behavior, and Auto-Segment rules are locked server-side; sync, internal name, and flow membership stay editable. Ending requires a winner; the winner's text, description, and answer wording are promoted to draft.
+- Flow test variants each need a complete `funnelDefinition`. Confirm the live schema before construction; do not submit partial branches.
 - Campaign holdout and resource split tests are different mechanisms. Inspect the campaign's current `testing` contract instead of transplanting split-test payloads or a generic holdback percentage.
 - Change the smallest coherent treatment. A redesigned page or flow may test a single proposition, but cannot isolate the effect of every changed element.
 - Do not invent sample-size targets, statistical significance, or guaranteed lift. If a defensible power/sample calculation is unavailable, document a pragmatic review horizon and the limits on any conclusion.
@@ -104,6 +109,7 @@ A version change list compares its snapshot to the next state shown by `compared
 - Use an available calculator or code tool for rates and differences. Show raw numerators/denominators, absolute percentage-point change, and relative change only when the control rate is nonzero and populations are comparable.
 - Call out observed associations separately from causal conclusions. Different acquisition audiences are not randomized arms; higher response volume alone is not a commercial win.
 - Report confidence/significance only when a known supported method or tool output provides it; state the method, assumptions, and limits. Do not fabricate confidence, p-values, test execution, or a winner from small/noisy cohorts or repeated peeking.
+- **Campaign holdbacks.** Read `get-campaign-performance` per goal, leading with the goal the business is judged on (a confirmed booking or purchase), not a form submit or click on the way. A campaign's goals can point in opposite directions; report both with counts. Use a fixed window from the campaign's current run start, not a rolling 7-day view, where one conversion can flip the sign. Before trusting a holdback, check that no other active campaign changes the same page. Restarting a campaign's measurement starts a new period and earlier runs stay in history, so when changes need a restart, bundle them into one. Results can take months at low traffic and may never decide.
 - When evidence is insufficient, say “inconclusive” and explain the missing condition. Follow pre-agreed stopping/review criteria rather than changing them to favor a result.
 - **Checkpoint:** a decision supported by the design and data, with uncertainty preserved and no unauthorized end/promotion.
 
@@ -123,7 +129,8 @@ Use [the experiment record](templates/experiment-record.md) for a baseline, repa
 - Testing a new opener while tracking, identity, routing, or the primary goal is broken.
 - Treating completion counts as confirmed conversions, or whole-site visitors as eligible exposures.
 - Comparing different reporting windows, anonymous/identified populations, or ad audiences as a controlled test.
-- Duplicating implicit control, inventing test types/weights, or exceeding the live variant limits (three for question tests, four for flow tests).
+- Duplicating implicit control, inventing test types/weights, or exceeding the variant limits the live schema enforces.
+- Two active campaigns changing the same page. Each keeps its own holdback, so most of one campaign's control group still sees the other's changes.
 - Ending early for an attractive point estimate, or reporting a promoted draft winner as live.
 
 ## Completion checks

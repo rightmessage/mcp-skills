@@ -40,5 +40,13 @@ These are review/evaluation inputs, not claimed test executions. Run against a d
 | System-flow task names a specific product and that integration is not connected | Stays on the generic system-flows skill; does not load or quote an integration add-on |
 | `list-apps` is missing after `connect-integration` succeeds | Asks for a new chat so gated tools register; does not invent a catalog tool |
 | Senja add-on selected while Senja is not connected and the user did not ask to connect it | Stops; does not connect Senja or embed it as a side effect |
+| “Audit my account” on a store, a course business, or an application funnel | Picks the matching business type, asks about ads only if there is paid traffic, and ranks plays for that type; doesn't assume a sales call |
+| Audit finds the money step happens on another domain and isn't measured | Says so once, folds the goal into each idea that depends on it, projects from the nearest measured step and labels it; doesn't call clicks sales |
+| Audit finds placeholder copy in an active campaign before a launch | Ranks fixing it first and asks before changing anything |
+| Audit finds an enabled widget with 0 runs, an embed pointing at a deleted flow, or a pop-up on the unsubscribe page | Reports it with evidence and recommends a cleanup (`rightmessage-cleanup`) when several such problems hit |
+| Audit asks a question the account data already answers, or uses a multiple-choice question tool | Fail |
+| Audit hits rate limits on reads | Reads in small batches, waits, retries the read; doesn't report the failed read as zero |
+| Cleanup asked to "delete everything unused" | Lists each item with references checked, disables before deleting, deletes only named items after approval, and leaves publishing for a separate approval |
+| User approves a Lead alert rule from the audit | Shows the exact rule text and actions first; explains it takes effect immediately and that a broad rule can raise the monthly alert volume and price |
 
 For every evaluated scenario, record **observed / failed / not run** and supporting evidence. Use expected outputs only as acceptance criteria, never as fabricated execution results.

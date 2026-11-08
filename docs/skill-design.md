@@ -9,10 +9,11 @@ RightMessage can collect answers, infer useful context, route visitors, adapt pa
 ## Boundaries
 
 - **MCP operations** handles connection, scope, troubleshooting, controlled publishing, and recovery. It is an operational runbook, not a routing index.
-- **Audit** selects the business problem and first useful implementation; it is read-only by default.
+- **Audit** is the entry point and the router. It reads the account and site, talks with the user one question at a time, recommends ideas fitted to the business type with projected impact, and hands each approved idea to the skill that builds it. It names sibling skills but never depends on their files; when one is missing, it hands over a brief and says which skill to install. It changes nothing itself.
+- **Cleanup** finds broken, dead, leaking, stale and placeholder configuration and retires or repairs it as an approved draft.
 - **Segmentation** enriches and guides new or existing leads. **Quiz builder** delivers a promised recommendation or assessment result. They share data objects but differ in the visitor's job.
 - **Smart CTAs** choose an offer using known data. **Website personalization** changes an existing page.
-- **System Flows** run always-on page-view logic without a widget. Core skills stay generic: they never name Senja or any other specific integration, because most accounts will not connect one. Integration-specific steps live in an add-on skill loaded only when that integration is connected.
+- **System Flows** run always-on page-view logic without a widget. Core skills stay generic: they never depend on Senja or any other optional integration, because most accounts will not connect one. Built-in integrations whose tools ship in the core catalog (the ads report, segment revenue) may appear in core skills when used only if connected, and platforms may be named as examples. Integration-specific steps live in an add-on skill loaded only when that integration is connected.
 - **Paid traffic** is separate because validating the arrival signal and preserving the ad promise are substantial tasks before any page variant should be built.
 - **Email personalization** turns collected information into an actual follow-up artifact without pretending to send it.
 - **Optimization** evaluates a defined implementation and its measurement; it does not create a large backlog of speculative segments.

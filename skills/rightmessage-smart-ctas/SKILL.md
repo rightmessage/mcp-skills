@@ -1,11 +1,11 @@
 ---
 name: rightmessage-smart-ctas
-description: Use when visitors should see different next-step CTAs, offers, or popups based on data RightMessage already has (lifecycle, ESP fields or tags, segments, previous answers, page context).
+description: Use when visitors should see different next-step CTAs, offers, or popups based on data RightMessage already has (lifecycle, ESP fields or tags, segments, previous answers, page context), or when a pile of separately targeted pop-ups should become one decision map that picks the offer.
 license: MIT
 compatibility: Requires a connected RightMessage MCP server for account operations; without it, produce a plan only.
 metadata:
   author: RightMessage
-  version: '0.2.0'
+  version: '0.3.0'
 ---
 
 # RightMessage Smart CTAs
@@ -18,6 +18,8 @@ Deliver one scoped routing model and a verified, disabled draft—not a collecti
 - Stop showing acquisition forms to identified subscribers or customers.
 - Route visitors to an appropriate resource, booking link, product, or support destination.
 - Offer a page-relevant content upgrade without rebuilding the same flow for every page.
+- Replace a pile of separately targeted pop-ups (long exclusion lists, sitewide pop-ups stacking on each other) with one decision map that picks which offer each visitor gets. Pop-ups from another tool have to be rebuilt as RightMessage forms and offers, and the old tool removed. If the account also has dead or broken pop-ups, run `rightmessage-cleanup` first, or alongside, so the map starts from what actually runs. If it isn't installed, list the dead and broken items yourself before designing the map.
+- Keep offers off the pages where they hurt: booking, checkout and confirmation pages, and unsubscribe or "not interested" pages.
 - Do not use this workflow to redesign an entire site, create a scored assessment, or start an experiment.
 
 ## Example prompts

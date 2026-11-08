@@ -29,8 +29,8 @@ Follow [CONTRIBUTING.md](CONTRIBUTING.md). In short:
 
 - One distinct customer outcome per skill, with clear triggers, a concrete deliverable, and a verification contract. Do not add one-skill-per-tool wrappers.
 - Agent Skills frontmatter; `metadata.author: RightMessage`; quoted semantic `metadata.version`. Keep `SKILL.md` under 500 lines.
-- Each skill must work alone: references live inside its own directory; no root-doc, symlink, or sibling-skill dependencies.
-- Core skills never name a specific integration; integration steps belong in add-on skills (`rightmessage-integration-*`).
+- Each skill must work alone: references live inside its own directory; no root-doc, symlink, or sibling-skill dependencies. Naming a sibling skill as a hand-off (as the audit does) is fine when the skill still works without it: say which skill to install and hand over a brief.
+- Core skills never depend on a specific optional integration; its steps belong in an add-on skill (`rightmessage-integration-*`). Two exceptions: built-in integrations whose tools ship in the core catalog (the ads report and segment revenue), used only when connected; and platform names given as examples ("a Shopify or other hosted checkout").
 - Verify tool names against the connected catalog and https://rightmessage.com/mcp.md. Never invent tools, results, benchmarks, or integration claims.
 - Account workflows must confirm the project, inspect before writing, preserve existing drafts, read changes back, and separate preview from live verification.
 - Releases bump `version` in `plugin.json`, `.claude-plugin/plugin.json`, and changed skills' metadata together.

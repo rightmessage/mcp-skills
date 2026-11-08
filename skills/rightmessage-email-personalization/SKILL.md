@@ -5,7 +5,7 @@ license: MIT
 compatibility: Requires a connected RightMessage MCP server for account operations; without it, produce a plan only.
 metadata:
   author: RightMessage
-  version: '0.2.0'
+  version: '0.3.0'
 ---
 
 # RightMessage Email Personalization
@@ -60,6 +60,7 @@ A version change list compares its snapshot to the next state shown by `compared
 - Distinguish display labels from stored values; preserve existing automations' vocabulary rather than renaming data for prettier copy.
 - Verify variable paths, escaping, condition operators, collection handling, and supported template features from provider-specific context/documentation.
 - Do not infer syntax from provider branding or assume every provider accepts Liquid. If support is unresolved, deliver clearly marked non-executable logic.
+- When `list-integrations` shows the provider can't take RightMessage-generated email personalization (`can_personalize_emails: false`), the answers can still drive email if they sync to fields or tags. Write the conditional blocks by hand in the provider's own documented conditional-content or merge-field syntax, keyed on the synced field or tag and its stored values, for the user to paste, and render or preview them in the provider before calling them working. Where the provider has no conditional content, deliver one email per segment plus the automation split that sends it, as a brief.
 - A mapped field is not proof that an intended recipient has it; missing identity or unsynced data remains a separate prerequisite.
 
 ### 2. Choose small, meaningful blocks

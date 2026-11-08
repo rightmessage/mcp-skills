@@ -1,11 +1,11 @@
 ---
 name: rightmessage-website-personalization
-description: "Use when personalizing website copy, proof, or CTAs with RightMessage; creating audience-specific page variants; or checking page targeting, conversion goals, and preview QA."
+description: "Use when personalizing website copy, proof, or CTAs with RightMessage; creating audience-specific page variants, sitewide campaigns for one audience, or shared blocks such as article endings and thank-you pages; or checking page targeting, conversion goals, and preview QA."
 license: MIT
 compatibility: "Any Agent Skills-compatible client. A live RightMessage MCP connection is required for account operations; browser access or user-run checks are needed for visual and functional QA."
 metadata:
   author: "RightMessage"
-  version: "0.2.0"
+  version: '0.3.0'
 ---
 
 # Website personalization
@@ -16,6 +16,8 @@ Use the skill-local [page treatment workbook](templates/page-treatment-workbook.
 ## When to use
 
 - Tailor a real landing, product, service, or sales page for an evidenced audience.
+- Change a block many pages share, such as an article's closing pitch or a thank-you or confirmation page, so it points each audience at the product or next step that fits them. One campaign scoped to a page pattern can cover hundreds of posts.
+- Give one audience a consistent story across several pages (home, pricing, product) with one sitewide campaign.
 - Improve the relevance of the headline, explanation, proof, objection handling, or CTA together.
 - Review an existing personalization draft for targeting conflicts, weak goals, and unsafe defaults.
 - Do not use this as authority to rebuild forms, edit source-page files, change an offer, or modify ads.

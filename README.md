@@ -57,7 +57,8 @@ Skills supply the method. MCP supplies account access and tools. Without a conne
 | Skill | Use it when you want to… | What you get |
 | --- | --- | --- |
 | [MCP operations](skills/rightmessage-mcp/SKILL.md) | Connect, troubleshoot, review a draft, publish, or recover a change | Verified project context, diagnosis, and a controlled change/recovery handoff |
-| [Account audit](skills/rightmessage-audit/SKILL.md) | Find the highest-value first or next move | Evidence-backed top three priorities and one scoped implementation brief |
+| [Account audit](skills/rightmessage-audit/SKILL.md) | **Start here.** Find out what to do next for your kind of business | A conversation grounded in your account and site, a top three plus every idea worth doing with projected impact, and a hand-off to the skill that builds the one you pick |
+| [Cleanup](skills/rightmessage-cleanup/SKILL.md) | Tidy an account that has piled up pop-ups, flows and campaigns | A health report (fix now, retire, leave) and the approved fixes as a draft |
 | [Segmentation](skills/rightmessage-segmentation/SKILL.md) | Understand and guide new or existing leads | Useful questions/signals, a field-value map, and a downstream action |
 | [Quiz builder](skills/rightmessage-quiz-builder/SKILL.md) | Build an assessment, recommendation quiz, or lead qualifier | Outcome-first flow, result/capture paths, and branch/scoring QA |
 | [Smart CTAs](skills/rightmessage-smart-ctas/SKILL.md) | Show different next steps to prospects, leads, and customers | A reusable routing flow with meaningful offers and explicit exclusions |
@@ -68,7 +69,7 @@ Skills supply the method. MCP supplies account access and tools. Without a conne
 | [Optimization](skills/rightmessage-optimization/SKILL.md) | Understand results and choose a defensible experiment | Measurement checks, funnel diagnosis, and a controlled test/readout |
 | [High-intent visitors](skills/rightmessage-high-intent-visitors/SKILL.md) | Spot known contacts who viewed pricing, demo, booking, or checkout but didn't convert | A ranked, evidence-backed list with a next step per person, runnable as a recurring alert |
 
-Start with the job you already have. You do not need to run an audit before every small change or install every skill.
+Not sure where to start? Ask for an audit: it reads your account and site, asks you a few questions, and routes each idea you agree to to the skill that builds it. If you already know the job, start with that skill. You do not need to run an audit before every small change.
 
 ### Add-on skills
 
@@ -82,7 +83,8 @@ The [Senja webinar prompt](prompts/senja-webinar.md) is a paste-ready script for
 
 ## Try these prompts
 
-- “Audit this project and its website. What are the three most useful improvements? Don't change anything yet.”
+- “Audit my RightMessage account and website. What should I do next?”
+- “Clean up our account: which pop-ups actually run, and which are broken or stale?”
 - “Build a post-opt-in survey that guides new leads to the right next step. Reuse our existing CRM fields and leave the configuration in draft.”
 - “Help me design a product recommendation quiz. Show me the outcomes and question strategy before building it.”
 - “Stop asking known customers to join our mailing list. Draft a better CTA flow with an anonymous fallback.”
