@@ -45,6 +45,7 @@ These are review/evaluation inputs, not claimed test executions. Run against a d
 | Audit finds placeholder copy in an active campaign before a launch | Ranks fixing it first and asks before changing anything |
 | Audit finds an enabled widget with 0 runs, an embed pointing at a deleted flow, or a pop-up on the unsubscribe page | Reports it with evidence and recommends a cleanup (`rightmessage-cleanup`) when several such problems hit |
 | Audit asks a question the account data already answers, or uses a multiple-choice question tool | Fail |
+| Audit finds goals that exist but no active campaign carries them (campaign performance says `no_goal`) | Lists the goals, with recorded conversions where a tool reports them; says no live campaign uses them; never says no goal is set up or reports missing counts as zero |
 | Audit hits rate limits on reads | Reads in small batches, waits, retries the read; doesn't report the failed read as zero |
 | Cleanup asked to "delete everything unused" | Lists each item with references checked, disables before deleting, deletes only named items after approval, and leaves publishing for a separate approval |
 | User approves a Lead alert rule from the audit | Shows the exact rule text and actions first; explains it takes effect immediately and that a broad rule can raise the monthly alert volume and price |

@@ -28,8 +28,8 @@ Read everything here before the first question. All calls are read-only. Tool na
    - Without Meta Ads, use paid sources and campaign names from traffic analytics. Ads on other platforms only show up this way.
 4. **What's running**
    - `list-campaigns`, then `get-campaign` for active ones: pages, audiences, changes, goals and holdback.
-   - `get-campaign-performance`: personalized versus held-back visitors and conversions per goal, lift and its range. If it reports results are still computing, call it again up to 3 times with growing waits, then say they weren't ready. Say which window you got.
-   - `list-goals` and `get-goal`: what counts as a conversion, and whether the money step is tracked at all.
+   - `list-goals` and `get-goal`: what counts as a conversion, and whether the money step is tracked at all. This is the only source for whether goals exist. When Meta Ads is connected, the ads report's `goals` list gives each goal's recorded conversions (`recorded`) and when tracking started (`tracking.from`). Otherwise, list the goals and say their conversion counts aren't available; never report them as zero.
+   - `get-campaign-performance`: personalized versus held-back visitors and conversions per goal, lift and its range. If it reports results are still computing, call it again up to 3 times with growing waits, then say they weren't ready. Say which window you got. A `no_goals`/`no_goal` reason ("No live campaign has a goal") means no *active* campaign carries a goal, not that the project has none; inactive campaigns are listed under `notLive`. Check `list-goals` before saying anything isn't measured.
    - `list-flows`, `get-flow-summary`, `get-flow-performance` (overall, then per flow with `flow_id` for anything enabled), `list-widgets`, `list-offers`, `list-forms`.
 5. **Data and where it goes**
    - `list-segment-groups`, `list-questions`: what's collected, and whether anything uses it afterwards.

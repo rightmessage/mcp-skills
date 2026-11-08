@@ -5,7 +5,7 @@ license: MIT
 compatibility: Works best with a connected RightMessage MCP server and a client that can fetch web pages. Without a connection, run the site review and conversation and label the result planning only. Works with any Agent Skills-capable client.
 metadata:
   author: RightMessage
-  version: '0.4.0'
+  version: '0.4.1'
 ---
 
 # RightMessage audit
