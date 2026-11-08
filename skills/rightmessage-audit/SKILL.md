@@ -5,7 +5,7 @@ license: MIT
 compatibility: Works best with a connected RightMessage MCP server and a client that can fetch web pages. Without a connection, run the site review and conversation and label the result planning only. Works with any Agent Skills-capable client.
 metadata:
   author: RightMessage
-  version: '0.4.1'
+  version: '0.4.2'
 ---
 
 # RightMessage audit
@@ -52,7 +52,7 @@ Collect at least:
 - Every domain the project uses, and whether tracking is live: `get-data-status`, plus hosts from campaigns, flows and publish history.
 - Where visitors come from and land: `get-traffic-analytics` (landing pages, most viewed pages, UTM sources and mediums, referrers).
 - Paid ads, if Meta Ads is connected: `get-ads-report` (landing pages with spend and no live campaign, ads with no audience, conflicts). If the project doesn't have Meta Ads, use UTM data.
-- What's already running: campaigns with `get-campaign-performance` (personalized versus held back), goals, flows with `get-flow-performance` (where they run and where people stop), widgets, offers.
+- What's already running: campaigns with `get-campaign-performance` (personalized versus held back), goals with `list-goals` and `get-goal-performance`, flows with `get-flow-performance` (where they run and where people stop), widgets, offers.
 - What's collected and where it goes: segment groups and questions, integrations, `get-dimension-sync-data`.
 - Revenue, if Stripe is connected: `get-segment-revenue`.
 - Recent changes, who is doing the work now, and unpublished draft work: `get-publish-history`, `list-config-versions`.
