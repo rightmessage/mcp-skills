@@ -57,13 +57,13 @@ Skills supply the method. MCP supplies account access and tools. Without a conne
 | Skill | Use it when you want to… | What you get |
 | --- | --- | --- |
 | [MCP operations](skills/rightmessage-mcp/SKILL.md) | Connect, troubleshoot, review a draft, publish, or recover a change | Verified project context, diagnosis, and a controlled change/recovery handoff |
-| [Account audit](skills/rightmessage-audit/SKILL.md) | **Start here.** Find out what to do next for your kind of business | A conversation grounded in your account and site, a top three plus every idea worth doing with projected impact, and a hand-off to the skill that builds the one you pick |
+| [Account audit](skills/rightmessage-audit/SKILL.md) | **Start here.** Find out what to do next for your kind of business | A segment-fit score per segment for your homepage and top landing page, a conversation grounded in your account and site, a top three plus every idea worth doing with projected impact, and a hand-off to the skill that builds the one you pick |
 | [Cleanup](skills/rightmessage-cleanup/SKILL.md) | Tidy an account that has piled up pop-ups, flows and campaigns | A health report (fix now, retire, leave) and the approved fixes as a draft |
 | [Segmentation](skills/rightmessage-segmentation/SKILL.md) | Understand and guide new or existing leads | Useful questions/signals, a field-value map, and a downstream action |
 | [Quiz builder](skills/rightmessage-quiz-builder/SKILL.md) | Build an assessment, recommendation quiz, or lead qualifier | Outcome-first flow, result/capture paths, and branch/scoring QA |
 | [Smart CTAs](skills/rightmessage-smart-ctas/SKILL.md) | Show different next steps to prospects, leads, and customers | A reusable routing flow with meaningful offers and explicit exclusions |
 | [System Flows](skills/rightmessage-system-flows/SKILL.md) | Run always-on page-view logic without a popup or bar, like a smarter Google Tag Manager | A draft System Flow (script, webhook, data, redirect, or a connected integration's widget) that goes live only with publish |
-| [Website personalization](skills/rightmessage-website-personalization/SKILL.md) | Adapt an existing page to known audiences | Page-scoped draft campaign, copy/targeting manifest, and preview matrix |
+| [Website personalization](skills/rightmessage-website-personalization/SKILL.md) | Score how well a page speaks to each segment, then adapt it to close the gaps | Before and after segment-fit scores, a gap and component table, page-scoped draft campaign, copy/targeting manifest, and preview matrix |
 | [Paid-traffic message match](skills/rightmessage-paid-traffic/SKILL.md) | Make a landing page follow through on the ad that earned the click | Verified signal contract, a small set of treatments, and fallback tests |
 | [Email personalization](skills/rightmessage-email-personalization/SKILL.md) | Actually use captured answers in follow-up | Provider-aware template, useful defaults, and a branch review—not a sent email |
 | [Optimization](skills/rightmessage-optimization/SKILL.md) | Understand results and choose a defensible experiment | Measurement checks, funnel diagnosis, and a controlled test/readout |
@@ -88,6 +88,7 @@ The [Senja webinar prompt](prompts/senja-webinar.md) is a paste-ready script for
 - “Build a post-opt-in survey that guides new leads to the right next step. Reuse our existing CRM fields and leave the configuration in draft.”
 - “Help me design a product recommendation quiz. Show me the outcomes and question strategy before building it.”
 - “Stop asking known customers to join our mailing list. Draft a better CTA flow with an anonymous fallback.”
+- “Score how well our homepage speaks to each business type, then close the biggest gaps and rescore.”
 - “Personalize our pricing page for our two main audiences. Keep the original for everyone else and return previews.”
 - “Check these real ad-click URLs, then propose two message-matched treatments for this landing page. Don't edit our ads.”
 - “Turn these survey answers into a personalized welcome email. Use our actual platform's syntax and don't send it.”

@@ -35,6 +35,10 @@ Use `get-page-elements` for a page you may personalize; it returns the elements 
 - Placeholder or test text ("asdf", "lorem", "TODO") and obvious typos, especially in anything personalized.
 - Pages that return an error but still get visits.
 
-## 4. Summarize
+## 4. Score segment fit
 
-Five lines at most for the user. Keep the per-page notes in the notes file.
+Score the homepage and the top paid landing page with [segment-fit.md](segment-fit.md). The per-page notes above feed it: the offers you noted become its `falseClaims` rules, and the proof you noted is what its testimonial row checks.
+
+## 5. Summarize
+
+Five lines at most for the user, segment fit first. Keep the per-page notes in the notes file.

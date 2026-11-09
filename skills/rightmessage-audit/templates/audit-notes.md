@@ -30,6 +30,19 @@ Unknown or unavailable:
 | --- | --- | --- | --- | --- | --- |
 | | | | | | |
 
+## Segment fit
+
+Computed by `scripts/segment-fit.mjs` ([method](../references/segment-fit.md)); never filled by hand. Captures, labels and `report.md` sit next to this file.
+
+| Page | Segment | Their version | On the default page | Biggest losses | False offers |
+| --- | --- | --- | --- | --- | --- |
+| | | | | | |
+
+Overall per page:
+Audiences and fallback buyer:
+Component gaps (component, who it misses, points, campaign or site change):
+Next step: build with rightmessage-website-personalization, which rescores the draft.
+
 ## What you told me
 
 - Business type and modifiers (paid traffic, launch or deadline, second side, domains):

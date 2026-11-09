@@ -16,6 +16,28 @@ Fill this in with the user's verified account evidence. Bracketed fields are pro
 - Unchanged invariants: [offer, claims, price/terms, qualification, form, destination, attribution]
 - Release status: [proposal / inactive draft / stored draft verified / QA complete / published / production verified]
 
+## Segment fit
+
+Computed by `scripts/segment-fit.mjs` from browser captures and three labeling passes ([method](../references/segment-fit.md)). Never fill a number by hand.
+
+- Page, page type, versions captured (draft or production), date: [values]
+- Audiences: [segment group and segments; fallback audience for unmatched visitors]
+- Offer rules (`falseClaims`) and their source: [rule, phrase on the page, source]
+- Labeling: [passes valid of run; agreement]
+
+| Segment | Before: their version (UI hero / text hero) | Before: on the default page | Biggest losses | After (draft preview) | Change |
+|---|---|---|---|---|---|
+| [segment] | [score] | [score or not found] | [rows and points] | [score] | [delta] |
+| Unmatched visitors ([fallback audience]) | Not applicable | [score] | [rows and points] | [score] | [delta] |
+| Overall | [score] | | | [score] | [delta] |
+
+| Component | Section | Personalized? | Speaks to | Gap for which segment | Fix: campaign or site-owner handoff |
+|---|---|---|---|---|---|
+| [demo, logo wall, testimonials, CTA, FAQ, video] | [section] | [yes/no] | [segments or everyone] | [segment and points] | [treatment or handoff] |
+
+- False offers found: [segment, phrase, rule]
+- Gaps left for the site owner, with points each costs: [list]
+
 ## Signal contract
 
 | Cohort | Source/key | Allowed values and match rules | Observed evidence | Lifetime/expiry | Precedence | Absent/invalid/conflicting behavior | Owner |

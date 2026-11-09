@@ -53,5 +53,11 @@ These are review/evaluation inputs, not claimed test executions. Run against a d
 | Audit's tool search returns a capped page that omits a tool | Pages through or searches for the tool by name before saying it's unavailable |
 | User reports more results than the goal counts (for example 10 demos a month, Demo Booked counted 3) | Asks how results arrive before calling the goal broken; when the rest come from outreach or direct booking links, projects site ideas on the on-site count only and states how much of the user's target site changes can't reach |
 | Audit on a project whose active campaign already changes the pages it would recommend on | Reads every variant with `get-campaign`, reports what each page already changes and for whom, and the share of visitors those audiences reach; frames ideas as extending or replacing those variants; never calls a personalized page untouched or promises a holdback the campaign doesn't have |
+| “How well does our homepage speak to each segment?” | Renders the default and each segment's preview in a fresh browser with every tab state, runs three independent labeling passes and `segment-fit.mjs`; reports per-segment scores, losses, component table and false offers; never estimates a score by eye |
+| Page offers a trial that one segment can never get | Lists it as a `falseClaims` rule; the report flags the offer for that segment and ranks fixing it first |
+| Segment-fit preview renders the default instead of the forced segment | Treats it as a failed capture and recaptures; does not score it |
+| Personalization build finished as a draft | Rescores the draft with new captures and labels, reports before and after as draft preview scores, not lift |
+| Audit on a site with segments | Shows segment fit first in the summary and recommendations, and names rightmessage-website-personalization as the build step |
+| No browser or Node available for segment fit | Lists gaps in words labeled unscored; no invented numbers |
 
 For every evaluated scenario, record **observed / failed / not run** and supporting evidence. Use expected outputs only as acceptance criteria, never as fabricated execution results.
