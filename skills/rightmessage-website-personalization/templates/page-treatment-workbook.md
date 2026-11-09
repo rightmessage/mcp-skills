@@ -78,6 +78,12 @@ Use a row for each material treatment. Explain why each difference helps; do not
 - Replacement `changes` manifest: [ALL variants/actions, including preserved entries]
 - Complete `signals` / goal `events` retained if touched: [records]
 - Campaign configuration: [is_active=false; base_url; actual goal IDs; explicit testing policy]
+- Campaign structure ([rules](../references/campaign-structure.md)), each pass / fail / accepted trade-off:
+  - Campaigns and the pages each serves; broad criteria in any campaign or attached goal, and why kept: [list]
+  - Sitewide campaign contents: [only changes every page needs]
+  - First-screen copy on server-rendered elements; actions that stay browser-only and why: [list]
+  - Edge version and `suppressHydrationWarning` handoff, if the site uses Edge: [values]
+  - Campaigns split, holdback reset accepted by: [owner]
 - Requested versus read-back counts: [campaigns; per-campaign variants and actions; reconcile every mismatch]
 - Exact-target readback after every mutation: [object, result, unresolved differences]
 - Ambiguous mutation/retry handling: [inventory first; remaining partial state]

@@ -5,7 +5,7 @@ license: MIT
 compatibility: "Any Agent Skills-compatible client. A live RightMessage MCP connection is required for account operations; browser access or user-run checks are needed for visual and functional QA. Segment-fit scoring needs a browser the agent can run JavaScript in and Node 18 or later."
 metadata:
   author: "RightMessage"
-  version: '0.4.0'
+  version: '0.5.0'
 ---
 
 # Website personalization
@@ -20,7 +20,7 @@ Every page job starts and ends with a **segment-fit score**: how much of the pag
 - Tailor a real landing, product, service, or sales page for an evidenced audience.
 - "How well does this page speak to each of our segments?" or "make this page right for every buyer": score segment fit, list the gaps, close them, rescore.
 - Change a block many pages share, such as an article's closing pitch or a thank-you or confirmation page, so it points each audience at the product or next step that fits them. One campaign scoped to a page pattern can cover hundreds of posts.
-- Give one audience a consistent story across several pages (home, pricing, product) with one sitewide campaign.
+- Give one audience a consistent story across several pages (home, pricing, product) with one campaign on those pages.
 - Improve the relevance of the headline, explanation, proof, objection handling, or CTA together.
 - Review an existing personalization draft for targeting conflicts, weak goals, and unsafe defaults.
 - Do not use this as authority to rebuild forms, edit source-page files, change an offer, or modify ads.
@@ -82,6 +82,7 @@ A version change list compares its snapshot to the next state shown by `compared
 - Validate one representative action against the live mutation schema before assembling a large manifest.
 - Only if validation rejects the returned targeting shape, isolate the compatibility issue and consider a unique, structurally meaningful selector verified on the actual page.
 - Check fallback selector matches on desktop and mobile. Ambiguous responsive duplicates, broad containers, and selectors that reach form controls are not acceptable shortcuts; leave the edit blocked or untouched.
+- Structure campaigns for speed ([references/campaign-structure.md](references/campaign-structure.md)): scope each campaign to the narrowest pages it serves (one per personalized page; one per shared-block pattern such as `/blog/*`; one on a list of pages only for a cross-page story with one holdback; at most one small sitewide campaign). A site-wide pattern (`*`, `/*`), an empty "contains", "starts with" or "ends with", a negated rule, or no page criteria anywhere in a campaign or its attached goals keeps the whole campaign in the core tag every page loads, so avoid them except for a goal measurement needs. Put first-screen copy on server-rendered elements so RightMessage Edge can write it. Splitting an existing campaign restarts its holdback read; do it only when the user accepts that.
 - Give every action explicit page scope even when the campaign has `base_url`. Verify the scope matches only the intended destination.
 - Keep independently composable dimensions in separate campaigns with disjoint element ownership. Check actual matched elements, not merely whether selector strings differ.
 - Use peer variants within one campaign only for alternatives that should not stack. Do not multiply every dimension into a cross-product by default.
@@ -104,6 +105,8 @@ A version change list compares its snapshot to the next state shown by `compared
 - `update-campaign` with `changes` replaces **ALL variants/actions**. Send the complete intended manifest, including unchanged actions that must remain; never send only the delta.
 - Preserve complete replacement arrays for campaign `changes`, group `signals`, and goal `events`. Keep before/after manifests for review and recovery.
 - Read back each campaign after mutation: inactive state, testing settings, goal IDs, variant/action counts, audience rules, values, targeting, and per-action page scopes.
+- Run the campaign-structure checks on the readback: no broad criterion in any campaign meant to shard or its goals (or a recorded, accepted reason), sitewide campaign holding only sitewide changes, first-screen copy on server-rendered elements, the site's Edge version if it uses Edge.
+- Long text values can come back shortened in campaign readback. Compare them against the manifest you sent; report a shortened value as unverified, not as a mismatch, and never copy text back out of a readback.
 - Compare requested and stored counts programmatically where needed. A successful response alone is not proof of a complete draft.
 - **Checkpoint:** stored objects match the approved complete manifest, and no unapproved production or external state was changed.
 
@@ -142,6 +145,7 @@ A version change list compares its snapshot to the next state shown by `compared
 - [ ] One real page, meaningful treatments, sourced claims, and original-page default documented.
 - [ ] Live project/schema resolved; existing draft and complete arrays preserved; each mutation read back.
 - [ ] Confirmed-success goal, inactive campaigns, page-scoped actions, and disjoint targeting verified.
+- [ ] Campaigns scoped to the narrowest pages they serve, no unaccepted broad criterion in campaigns or attached goals, first-screen copy on server-rendered elements, and any split's holdback reset accepted.
 - [ ] Desktop/mobile, form, negative-state, forced-preview, and natural-routing results explicitly labeled.
 - [ ] Full-diff/activation/rollback gates remain visible; nothing published without separate approval.
 

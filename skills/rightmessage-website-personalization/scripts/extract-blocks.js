@@ -58,9 +58,24 @@
     const btn = el.closest("button,[role=button],a[href],input[type=submit]");
     if (btn && btn.getAttribute("role") !== "tab" && text.length <= 60 && !NOT_A_CTA.test(text)) {
       const tag = btn.tagName;
-      if (tag === "BUTTON" || tag === "INPUT" || btn.getAttribute("role") === "button" || BUTTONISH.test(btn.className || "") || CTA_WORDS.test(text)) return "cta";
+      if (tag === "BUTTON" || tag === "INPUT" || btn.getAttribute("role") === "button" || btn.hasAttribute("data-cta") || BUTTONISH.test(btn.className || "") || CTA_WORDS.test(text) || looksLikeButton(btn, text)) return "cta";
     }
     return "copy";
+  }
+
+  // A link styled as a button (utility-class sites): padded on both axes, with a fill or a border, and nothing but
+  // its own short label inside, so cards and logo tiles that wrap a block of content don't count.
+  function looksLikeButton(el, text) {
+    if (clean(el.innerText || "") !== text || text.length > 40 || words(text) > 7) return false;
+    if ([...el.querySelectorAll("*")].some((c) => !["inline", "inline-block", "contents", "none"].includes(getComputedStyle(c).display) && c.tagName !== "svg" && !c.closest("svg"))) return false;
+    if (el.querySelector("img")) return false;
+    const cs = getComputedStyle(el);
+    const px = (v) => parseFloat(v) || 0;
+    const padded = px(cs.paddingTop) + px(cs.paddingBottom) >= 8 && px(cs.paddingLeft) + px(cs.paddingRight) >= 16;
+    const filled = cs.backgroundColor !== "rgba(0, 0, 0, 0)" && cs.backgroundColor !== "transparent";
+    const bordered = px(cs.borderTopWidth) > 0 && px(cs.borderBottomWidth) > 0 && px(cs.borderLeftWidth) > 0;
+    const shaped = cs.display !== "inline" || cs.backgroundImage !== "none";
+    return padded && shaped && (filled || bordered || cs.backgroundImage !== "none");
   }
 
   // Walk text nodes in document order and join the ones that share a block-level parent into one line.
@@ -136,9 +151,12 @@
     main[i].heroText = true;
   }
 
-  // Main button: the first button in the hero outside navigation, else the first one in the header.
   const ctaOf = (b) => b && { n: b.n, text: b.text, href: b.href };
-  const mainCta = ctaOf(main.find((b) => b.heroUi && b.kind === "cta")) || ctaOf(blocks.find((b) => b.zone === "header" && b.kind === "cta")) || null;
+  // Main button: the first hero button after the H1 (a pill above the headline is an announcement), then any hero
+  // button, then the first one in the header.
+  const h1At = main.findIndex((b) => b.inH1);
+  const heroCtas = main.filter((b) => b.heroUi && b.kind === "cta");
+  const mainCta = ctaOf(heroCtas.find((b) => main.indexOf(b) > h1At) || heroCtas[0]) || ctaOf(blocks.find((b) => b.zone === "header" && b.kind === "cta")) || null;
 
   const links = [];
   const seenLinks = new Set();

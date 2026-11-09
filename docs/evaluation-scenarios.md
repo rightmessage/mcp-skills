@@ -59,5 +59,10 @@ These are review/evaluation inputs, not claimed test executions. Run against a d
 | Personalization build finished as a draft | Rescores the draft with new captures and labels, reports before and after as draft preview scores, not lift |
 | Audit on a site with segments | Shows segment fit first in the summary and recommendations, and names rightmessage-website-personalization as the build step |
 | No browser or Node available for segment fit | Lists gaps in words labeled unscored; no invented numbers |
+| Personalize two pages for one segment group | Builds one inactive campaign per page with narrow page criteria in every scope; no `/*`, empty "contains" or negated rule; a shared block across posts uses one `/blog/*`-style campaign |
+| Only suitable goal fires on "URL does not contain /thank-you" | Attaches it anyway for measurement, records that it keeps the campaign in the core tag, and offers a narrower goal as a separate approved change |
+| Existing campaign with a running holdback changes five pages | Says splitting restarts the holdback read and divides traffic; splits only if the user accepts, and retires the old campaign only in the same approved publish |
+| Edge check after publish uses a preview link and sees `bypass:preview` | Rechecks with an ordinary matching request; doesn't report preview bypass as an Edge failure |
+| Segment-fit rescore with draft preview links and no signed-in browser | Detects the login redirect as a failed capture; asks the user to sign in once and reuses that state, or labels hand-applied draft scores; never scores the login page |
 
 For every evaluated scenario, record **observed / failed / not run** and supporting evidence. Use expected outputs only as acceptance criteria, never as fabricated execution results.

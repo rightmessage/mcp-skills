@@ -38,7 +38,7 @@ Apply each that's true; they move plays up or add questions.
 | Paid clicks land on pages with no live campaign | Match each landing page to its ads, usually one campaign per landing page with its own goal and holdback | `rightmessage-paid-traffic` |
 | Several ads or a landing-page family point at one offer | Replace copies with one page that adapts to each ad | `rightmessage-paid-traffic` |
 | Paid arrivals that match no audience, or new ads not yet mapped | Map the new ads; give unmatched visitors a better default | `rightmessage-paid-traffic` |
-| One audience should see a consistent story across many pages (home, pricing, product) | One sitewide campaign for that audience, with one goal and holdback | `rightmessage-website-personalization` |
+| One audience should see a consistent story across many pages (home, pricing, product) | One campaign on those pages for that audience, with one goal and holdback | `rightmessage-website-personalization` |
 | Visitors arrive with a known audience (answers, CRM, referrer, page path) | Change the headline, proof and next step for that audience on the page that sells, or in a block every page shares (article endings, thank-you and confirmation pages) | `rightmessage-website-personalization` |
 | Two campaigns change the same page, or personalization is live but nobody can say if it works | Fix the measurement, then read the holdback honestly | `rightmessage-optimization` |
 | Several kinds of buyer, nothing to tell them apart | One short question that sorts visitors, stored and synced | `rightmessage-segmentation` |
