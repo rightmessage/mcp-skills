@@ -5,7 +5,7 @@ license: MIT
 compatibility: "Any Agent Skills-compatible client. A live RightMessage MCP connection is required for account operations; browser access or user-run checks are needed for visual and functional QA. Segment-fit scoring needs a browser the agent can run JavaScript in and Node 18 or later."
 metadata:
   author: "RightMessage"
-  version: '0.5.0'
+  version: '0.5.1'
 ---
 
 # Website personalization
@@ -82,7 +82,7 @@ A version change list compares its snapshot to the next state shown by `compared
 - Validate one representative action against the live mutation schema before assembling a large manifest.
 - Only if validation rejects the returned targeting shape, isolate the compatibility issue and consider a unique, structurally meaningful selector verified on the actual page.
 - Check fallback selector matches on desktop and mobile. Ambiguous responsive duplicates, broad containers, and selectors that reach form controls are not acceptable shortcuts; leave the edit blocked or untouched.
-- Structure campaigns for speed ([references/campaign-structure.md](references/campaign-structure.md)): scope each campaign to the narrowest pages it serves (one per personalized page; one per shared-block pattern such as `/blog/*`; one on a list of pages only for a cross-page story with one holdback; at most one small sitewide campaign). A site-wide pattern (`*`, `/*`), an empty "contains", "starts with" or "ends with", a negated rule, or no page criteria anywhere in a campaign or its attached goals keeps the whole campaign in the core tag every page loads, so avoid them except for a goal measurement needs. Put first-screen copy on server-rendered elements so RightMessage Edge can write it. Splitting an existing campaign restarts its holdback read; do it only when the user accepts that.
+- Structure campaigns for speed ([references/campaign-structure.md](references/campaign-structure.md)): scope each campaign to the narrowest pages it serves (one per personalized page; one per shared-block pattern such as `/blog/*`; one on a list of pages only for a cross-page story with one holdback; at most one small sitewide campaign). A site-wide pattern (`*`, `/*`), an empty "contains", "starts with" or "ends with", a negated rule, or no page criteria anywhere in a campaign or its attached goals keeps the whole campaign in the core tag every page loads, so avoid them except for a goal measurement needs. A goal's event pages join the criteria of every campaign it's attached to, so above the sharding threshold and with a sitewide campaign, goals sit on the sitewide campaign unless a page campaign's holdback or test needs one; tell the user page campaigns then show no results of their own. Put first-screen copy on server-rendered elements so RightMessage Edge can write it. Splitting an existing campaign restarts its holdback read; do it only when the user accepts that.
 - Give every action explicit page scope even when the campaign has `base_url`. Verify the scope matches only the intended destination.
 - Keep independently composable dimensions in separate campaigns with disjoint element ownership. Check actual matched elements, not merely whether selector strings differ.
 - Use peer variants within one campaign only for alternatives that should not stack. Do not multiply every dimension into a cross-product by default.
@@ -94,6 +94,7 @@ A version change list compares its snapshot to the next state shown by `compared
 - Prove the event represents the intended completed outcome and does not fire on failed submission, abandonment, or merely viewing the form.
 - Treat a CTA click or intermediate form interaction as diagnostic, not the primary conversion when confirmed success is available.
 - Reuse a valid goal where possible. For approved changes, preserve the complete `events` array, then read back the goal's event contract and returned ID.
+- Link the goal where the campaign structure puts it: the sitewide campaign when page campaigns run no holdback or test and the configuration is above the sharding threshold (say that page campaigns then show no campaign results or goal credit of their own), otherwise the page campaign.
 - Record the eligible population, goal linkage, explicit testing/holdback policy supported by the live schema, and intended review window. Do not assume a universal control percentage.
 - **Checkpoint:** goal semantics and linkage are verified, or measurement is explicitly blocked—not silently replaced with clicks.
 

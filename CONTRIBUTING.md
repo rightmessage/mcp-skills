@@ -6,7 +6,7 @@ Keep this a small library of useful customer workflows, not a mirror of every MC
 
 - Give each skill a distinct customer job, clear triggers, a concrete deliverable, and a verification contract.
 - Use `skills/<name>/SKILL.md` with Agent Skills frontmatter. Keep descriptions specific enough for an assistant to select the right skill.
-- Use `metadata.author: RightMessage` and a quoted semantic `metadata.version`. Current release: `0.6.0`.
+- Use `metadata.author: RightMessage` and a quoted semantic `metadata.version`. Current release: `0.6.1`.
 - Keep each skill independently installable. References must live inside that skill's directory; do not require root docs, symlinks, or sibling skills at runtime. A skill may name a sibling as a hand-off if it still works when that sibling is missing.
 - Put optional detail in local `references/`, `templates/` or `scripts/`. Keep the main skill below 500 lines.
 - Segment fit ships in two skills (`rightmessage-website-personalization` and `rightmessage-audit`) so each installs alone. `references/segment-fit.md` and `scripts/` must stay byte-identical in both: edit one, copy it to the other, and check with `diff -r`.

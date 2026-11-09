@@ -59,7 +59,7 @@ Read everything here before the first question. All calls are read-only. Tool na
 - Embeds pointing at deleted flows; flows that run but aren't in the flow list.
 - A form whose email platform isn't connected.
 - Placeholder or test copy, or typos, in anything active.
-- Campaigns with no changes, no goal, holdback off, changes on another domain or staging, or audiences nobody can match (rules on a question nobody is asked, or an AND across answers a visitor can't both give).
+- Campaigns with no changes, no goal (other than page campaigns while an active sitewide campaign carries the goals), holdback off, changes on another domain or staging, or audiences nobody can match (rules on a question nobody is asked, or an AND across answers a visitor can't both give).
 - Two active campaigns changing the same page, or two variants changing the same selector for audiences one visitor can match at once (every matching audience applies, so one overwrites the other).
 - Goals with no events, events with no page and no selector, selectors no longer on the page, goals attached to no campaign.
 - Exclusions that leak (a pop-up ran on pages its widget excludes; compare with `exposurePages`), pop-ups on unsubscribe, thank-you, booking or checkout pages, and sitewide pop-ups that stack.
