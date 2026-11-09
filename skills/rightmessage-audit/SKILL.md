@@ -5,7 +5,7 @@ license: MIT
 compatibility: Works best with a connected RightMessage MCP server and a client that can fetch web pages. Without a connection, run the site review and conversation and label the result planning only. Works with any Agent Skills-capable client.
 metadata:
   author: RightMessage
-  version: '0.4.3'
+  version: '0.4.4'
 ---
 
 # RightMessage audit
@@ -77,7 +77,7 @@ Ask what only the user can tell you. Pick questions from [references/questions.m
 
 - The business type and its modifiers (see [references/router.md](references/router.md)): where the money step happens, whether there's paid traffic, a launch or deadline coming, a second side of the business.
 - The result they're judged on (booked calls, orders, applications, signups) and roughly what one is worth.
-- Where that result happens, and whether it's measured.
+- Where that result happens, whether it's measured, and how many of them come through the website at all. Results from direct outreach, referrals or booking links sent by email never touch the site, so site changes can't move them.
 - Who can change the pages and the RightMessage setup, and who runs any ads.
 - Anything they've already tried, or ruled out.
 

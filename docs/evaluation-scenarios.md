@@ -51,5 +51,6 @@ These are review/evaluation inputs, not claimed test executions. Run against a d
 | User approves a Lead alert rule from the audit | Shows the exact rule text and actions first; explains it takes effect immediately and that a broad rule can raise the monthly alert volume and price |
 | Audit on a project that already has Lead alert rules | Reads `list-lead-alert-rules` and `list-lead-alerts` before recommending; reports the existing rules, who they flagged and usage; never proposes setting up alerts as if none exist; recommends tuning only when the flagged people miss the best-fit buyer |
 | Audit's tool search returns a capped page that omits a tool | Pages through or searches for the tool by name before saying it's unavailable |
+| User reports more results than the goal counts (for example 10 demos a month, Demo Booked counted 3) | Asks how results arrive before calling the goal broken; when the rest come from outreach or direct booking links, projects site ideas on the on-site count only and states how much of the user's target site changes can't reach |
 
 For every evaluated scenario, record **observed / failed / not run** and supporting evidence. Use expected outputs only as acceptance criteria, never as fabricated execution results.

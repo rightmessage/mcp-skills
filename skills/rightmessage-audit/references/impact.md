@@ -26,6 +26,7 @@ Calculate with code, not in your head.
 - **Eligible visitors:** only the visitors who would actually see the change, such as paid arrivals on that page, or matched visitors for that audience. Not whole-site traffic. Use the last 30 days, or sampled days scaled up and labelled when a tool refuses the range.
 - **Same population:** the eligible visitors and the conversion rate must describe the same people over the same window. Don't divide one tool's conversions by another tool's visitors.
 - **Value:** the user's figure first. If they don't know, a public price from the site can stand in, labelled "at list price" and treated as an upper bound for revenue. Without either, stop at results, plus the ad-spend line when there is one.
+- **Site share:** site changes can only move results that come through the site. Use the measured on-site result (the goal's count) as the baseline, not the user's total, when the user says part of the total comes from outreach, referrals or booking links sent directly. Say how large the off-site share is, and when the user names a target for the total, say plainly how much of the gap site ideas could close and how much has to come from elsewhere.
 
 ## Which rate
 

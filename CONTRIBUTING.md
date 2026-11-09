@@ -6,7 +6,7 @@ Keep this a small library of useful customer workflows, not a mirror of every MC
 
 - Give each skill a distinct customer job, clear triggers, a concrete deliverable, and a verification contract.
 - Use `skills/<name>/SKILL.md` with Agent Skills frontmatter. Keep descriptions specific enough for an assistant to select the right skill.
-- Use `metadata.author: RightMessage` and a quoted semantic `metadata.version`. Current release: `0.4.3`.
+- Use `metadata.author: RightMessage` and a quoted semantic `metadata.version`. Current release: `0.4.4`.
 - Keep each skill independently installable. References must live inside that skill's directory; do not require root docs, symlinks, or sibling skills at runtime. A skill may name a sibling as a hand-off if it still works when that sibling is missing.
 - Put optional detail in local `references/` or `templates/`. Keep the main skill below 500 lines.
 - Prefer a small worksheet, decision table, or QA matrix over a long background essay.

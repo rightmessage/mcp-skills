@@ -6,7 +6,7 @@ Ask one per turn, in plain text, in your reply. Skip any the data or the site al
 
 1. **What's happening now.** "Is anything launching, on sale or ending in the next few weeks?" A deadline changes what comes first.
 2. **The result and its value.** "What do you count each month: booked calls, orders, applications, signups? Roughly what is one worth?" Needed for projected impact. If they won't give a value, project in that result only.
-3. **Where the result happens.** Ask when it isn't on a page RightMessage sees: "When someone buys, where do they finish? Is there a thank-you page on your site, or does it all happen on [checkout domain]?"
+3. **Where the result happens.** Ask when it isn't on a page RightMessage sees: "When someone buys, where do they finish? Is there a thank-you page on your site, or does it all happen on [checkout domain]?" When the user's own count and the goal's count differ, ask how results arrive before calling the goal broken: "Your Demo Booked goal counted 3 this month and you said you get about 10. Do the others come through the site, or from outreach, referrals or a booking link you send directly?"
 4. **Who changes things.** "Who can change the pages and the RightMessage setup?" Use the publish history to name who's active: "I see [name] has been publishing lately; is that still right?"
 5. **What's been tried.** "Have you changed anything on the site for different visitors before? If you could change one thing for one group, what would it be?" Most people haven't, and don't know. That's what the recommendations are for.
 
