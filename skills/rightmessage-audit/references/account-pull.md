@@ -32,6 +32,7 @@ Read everything here before the first question. All calls are read-only. Tool na
    - `get-goal-performance` (same date range, no `goal_id`): every live goal's conversions, people, conversion rate (people over all site visitors, not a page's rate; see impact.md) and last conversion, whether or not a campaign uses it. A goal in `list-goals` but missing here hasn't been published; read it with `goal_id` for its state rather than counting it as zero. Pass `goal_id` for one goal's daily conversions and which campaigns got credit. Read each goal's `tracking`: `recorded` counts it (from `tracking.from` when set); `after_next_publish`, `paused` or `not_attached` mean nothing is recorded, and `tracking.detail` says why. Report that state, not zero. If it says `computing`, call again after `retry_after_seconds`, up to 3 times. If the tool isn't in the connected catalog, use the ads report's `goals` list (`recorded`, `tracking.from`) when Meta Ads is connected; otherwise say the counts aren't available, never zero.
    - `get-campaign-performance`: personalized versus held-back visitors and conversions per goal, lift and its range. If it reports results are still computing, call it again up to 3 times with growing waits, then say they weren't ready. Say which window you got. A `no_live_campaign_goal` reason means goals exist but no *active* campaign carries one; inactive campaigns are listed under `notLive`, and the goals' own numbers come from `get-goal-performance`. `no_goals`/`no_goal` means the project has no goals (older servers also sent it when goals existed), so confirm with `list-goals`. Check `list-goals` before saying anything isn't measured.
    - `list-flows`, `get-flow-summary`, `get-flow-performance` (overall, then per flow with `flow_id` for anything enabled), `list-widgets`, `list-offers`, `list-forms`.
+   - `list-lead-alert-rules`: every Lead alert rule, whether it's enabled, its actions, whether alerts are being checked, and this month's usage and held count. Then `list-lead-alerts` for the window: who each rule flagged and why. Read these before recommending any follow-up on high-intent visitors, so an idea builds on the rules that exist instead of proposing them again.
 5. **Data and where it goes**
    - `list-segment-groups`, `list-questions`: what's collected, and whether anything uses it afterwards.
    - `list-integrations`, `get-dimension-sync-data`: which answers reach the email platform or CRM, and whether the platform can take generated email personalization.
@@ -49,6 +50,7 @@ Read everything here before the first question. All calls are read-only. Tool na
 - **Answers going nowhere.** Questions with many answers and no campaign, flow branch, sync or email that uses them. A question asked and never used for routing or sync also costs completions.
 - **Unmatched ad traffic.** On a personalized page, the share of paid arrivals that match no audience. A falling share often means new ads nobody mapped.
 - **Stale content.** Dates, prices or offers that have passed, on high-traffic pages, in ads, and in RightMessage's own pop-ups and banners.
+- **Lead alerts that miss the buyer.** Compare who existing rules flagged (from the `list-lead-alerts` summaries) with the business's best-fit buyer, and compare how many were flagged with how many known contacts viewed the selling pages. When a rule mostly flags former customers, trials or poor-fit leads, the idea is to narrow or add a rule, not to set up alerts.
 
 **Health checks** (a run of these means recommending a cleanup)
 - Enabled widgets or flows with 0 runs (often a path typo, or an embed container lost in a site redesign). This is also how you catch something that used to work and stopped.
@@ -60,6 +62,7 @@ Read everything here before the first question. All calls are read-only. Tool na
 - Goals with no events, events with no page and no selector, selectors no longer on the page, goals attached to no campaign.
 - Exclusions that leak (a pop-up ran on pages its widget excludes; compare with `exposurePages`), pop-ups on unsubscribe, thank-you, booking or checkout pages, and sitewide pop-ups that stack.
 - Two segment groups writing the same email-platform field.
+- Lead alert rules that are enabled but flagged nobody in the window, alerts held over the monthly volume, or a rule whose action writes to an email platform that isn't connected.
 
 When three or more health checks hit, or any of them costs signups or sales now, put a cleanup in the recommendations (it builds with `rightmessage-cleanup`). Put the single most costly fix in the top three on its own if it's urgent, such as a dead signup form or placeholder copy before a launch.
 

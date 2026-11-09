@@ -46,7 +46,8 @@ Apply each that's true; they move plays up or add questions.
 | Visitors want a recommendation or an assessment | A quiz with a real result and a next step | `rightmessage-quiz-builder` |
 | Many pop-ups nobody can map; subscribers or customers asked to sign up again; pop-ups on the page that converts | One decision map that picks the offer, with exclusions | `rightmessage-smart-ctas` |
 | Answers collected but never used afterwards | Use them in follow-up email | `rightmessage-email-personalization` |
-| Known contacts view booking, pricing, application or checkout pages and don't convert, or start a form and don't finish | Lead alert rules: email the sales team, or tag the person so an email automation starts | `rightmessage-high-intent-visitors` |
+| Known contacts view booking, pricing, application or checkout pages and don't convert, or start a form and don't finish, and no Lead alert rule covers them | Lead alert rules: email the sales team, or tag the person so an email automation starts | `rightmessage-high-intent-visitors` |
+| Lead alert rules already exist but flag the wrong people (former customers, trials, poor-fit leads), flag nobody, or have alerts held | Narrow, add or reword rules, starting from what `list-lead-alerts` shows they flagged | `rightmessage-high-intent-visitors` |
 | Always-on page logic is needed: tag visitors by page, load a script for one audience, send a webhook | A system flow | `rightmessage-system-flows` |
 | Tracking isn't live on a domain, the widget is missing on the live site, or a publish or rollback is needed | Fix the plumbing | `rightmessage-mcp` |
 | Something only the site owner can fix (an expired banner in the page itself, a 404, copy in a form tool) | Say so plainly and give the exact fix; no skill builds it | (none) |

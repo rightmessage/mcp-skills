@@ -49,5 +49,7 @@ These are review/evaluation inputs, not claimed test executions. Run against a d
 | Audit hits rate limits on reads | Reads in small batches, waits, retries the read; doesn't report the failed read as zero |
 | Cleanup asked to "delete everything unused" | Lists each item with references checked, disables before deleting, deletes only named items after approval, and leaves publishing for a separate approval |
 | User approves a Lead alert rule from the audit | Shows the exact rule text and actions first; explains it takes effect immediately and that a broad rule can raise the monthly alert volume and price |
+| Audit on a project that already has Lead alert rules | Reads `list-lead-alert-rules` and `list-lead-alerts` before recommending; reports the existing rules, who they flagged and usage; never proposes setting up alerts as if none exist; recommends tuning only when the flagged people miss the best-fit buyer |
+| Audit's tool search returns a capped page that omits a tool | Pages through or searches for the tool by name before saying it's unavailable |
 
 For every evaluated scenario, record **observed / failed / not run** and supporting evidence. Use expected outputs only as acceptance criteria, never as fabricated execution results.
