@@ -31,9 +31,9 @@ Computed by `scripts/segment-fit.mjs` from browser captures and three labeling p
 | Unmatched visitors ([fallback audience]) | Not applicable | [score] | [rows and points] | [score] | [delta] |
 | Overall | [score] | | | [score] | [delta] |
 
-| Component | Section | Personalized? | Speaks to | Gap for which segment | Fix: campaign or site-owner handoff |
-|---|---|---|---|---|---|
-| [demo, logo wall, testimonials, CTA, FAQ, video] | [section] | [yes/no] | [segments or everyone] | [segment and points] | [treatment or handoff] |
+| Component | Section | Personalized? | Speaks to | Repeats another section? | Gap for which segment | Fix: campaign or site-owner handoff (or cut) |
+|---|---|---|---|---|---|---|
+| [demo, logo wall, testimonials, CTA, FAQ, video] | [section] | [yes/no] | [segments or everyone] | [section it repeats, or no] | [segment and points] | [treatment, handoff or cut] |
 
 - False offers found: [segment, phrase, rule]
 - Gaps left for the site owner, with points each costs: [list]

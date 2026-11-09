@@ -51,7 +51,7 @@ Scores run 0 to 100. Share rows map a share through a curve: the "good" share sc
 3. Confirm the version rendered is the one you asked for: a line you know that segment changes, or a marker the page exposes. A version that renders the default is a failed capture, not a score.
 4. Before each capture, let animations finish: typing chat demos and counters otherwise leave half-written lines that show up as false changes. Wait until `document.body.innerText.length` reads the same twice, a second or two apart. After `prepare`, scan `blocks.json` for several lines that start the same and stop at different points; recapture if you find them.
 5. Run `<skill-dir>/scripts/extract-blocks.js` as one expression in the tab (for example `agent-browser eval "$(cat <skill-dir>/scripts/extract-blocks.js)"`, or the client's evaluate tool). It returns a JSON string; save the tool's output as `captures/<version>-0.json` (the scorer accepts it JSON-encoded or not).
-6. For every tab set, carousel or step-through component, click each state in turn and capture again (`<version>-1.json`, `-2.json` …). The scorer merges the captures and counts each line once.
+6. For every tab set, carousel or step-through component, click each state in turn and capture again (`<version>-1.json`, `-2.json` …). The scorer merges the captures and counts each line once. A picker that switches the component to another audience's story is the exception: capture only the state each version opens on, and say so; leave the picker out of `capture.sh --tabs`, which clicks every match.
 7. Take a screenshot of each version's hero for the report.
 
 The extractor reads only visible text, drops the site navigation, header and footer, and keeps text inside mockups even when it is marked `aria-hidden`, because sighted visitors read it.
@@ -91,16 +91,23 @@ Then:
 
 Add the **component table** yourself, from the section table and the screenshots. One row per demo or visual, logo or integration wall, testimonial set, CTA block, FAQ and video:
 
-| Component | Section | Personalized? | Speaks to | Gap for which audience | Fix (copy, proof, component, link) |
-| --- | --- | --- | --- | --- | --- |
+| Component | Section | Personalized? | Speaks to | Repeats another section? | Gap for which audience | Fix (copy, proof, component, link, cut) |
+| --- | --- | --- | --- | --- | --- | --- |
+
+Read each audience's version across the components too: the same example people, platform names and business in every demo. A mismatch (one surname in one demo and another in the next, or a reader on one platform shown another platform's lead) is a gap even when the score doesn't see it.
 
 Rank gaps by points lost, worst-served audience first. A false offer outranks everything: it is wrong, not merely generic. Typical fixes, in the order they usually move the score:
 
-- Hero copy that names the audience's situation (25 points of weight), including the subhead and the visual under it.
+- The H1 itself: a per-audience ending on a fixed shared start. It is half of the headline, which is half of the hero row, so this one line carries a quarter of the row (half, when the lines after it have no selling words), and its words count again in the whole hero.
+- Hero copy that names the audience's situation (25 points of weight), including the subhead and the visual under it. A hero demo that repeats a later section dilutes the headline; cutting it removes the dilution and leaves one less thing to personalize.
 - A real testimonial from each audience the wall misses (20). Never invent one; when none exists, say which customers to ask.
 - A main button and offer that are true and specific for them (10).
 - A link to their own page from the nav or hero (10, homepages).
-- Section copy and components below the hero that only tell one audience's story (15).
+- Section copy and components below the hero that only tell one audience's story (15). A demo that shows each audience its own example business can move a large share of that section's words to them (on RightMessage's homepage, from almost none to about half).
+
+Some losses are fine to keep: a "Book a demo" button that would read as a gimmick with the audience's name on it, or a default written broadly for every unmatched visitor at the cost of the fallback audience's score. Record them as choices, with the points they cost.
+
+The labeling passes disagree most on: testimonials judged from a name and job title alone, integration and platform names, product mockup text (no one or everyone), and "see how you compare" buttons. Look at those blocks in the report before trusting a small difference between audiences, and ask the user who a customer is when the testimonial row depends on it.
 
 ## 5. Close the gaps and rescore
 
@@ -114,4 +121,22 @@ Then rescore against the draft:
 
 If no signed-in preview is possible, either rescore after an approved publish (published version, as above), or apply the draft's changes in the page yourself from the manifest you sent (not from readback, which can shorten long text), and label every after score "draft applied by hand, not rendered by RightMessage".
 
+If the treatment needs site changes (a new target element, per-audience markup, a cut component), capture the after versions from a build of the site that has them, and say which build (see "Local copies of the site" in step 2).
+
 Report the rescore as **draft preview scores**. They show what the treatment says to each audience, not that real visitors are matched to it or that it converts. Repeat until each audience's biggest remaining loss is something the page can't fix yet (a missing testimonial, a component that needs a developer), and list those.
+
+## Worked example: RightMessage's homepage (November 2026)
+
+Five business-type segments plus in-house paid-ads teams as the fallback audience, scored by method 2 (the `method` field in `scores.json`) with three labeling passes per round. Round 4 scored the same as round 3 and is left out. Production scored 57 overall; agency was lowest at 38, partly because the trial button was false for it (agency plans never get a trial).
+
+| Round | What changed | Overall | Lowest segment |
+| --- | --- | --- | --- |
+| 1 (before) | Production | 57 | Agency 38 |
+| 2 | Agency's trial button swapped for a partner path; per-segment hero lead and section copy | 68 | Services 55 |
+| 3 | Per-segment H1 ending on a fixed shared start, as its own styled element written by the edge; trial hidden from agencies at first paint | 75 | Services 63 |
+| 5 | Hero demo that repeated a later section cut (about 1 point by itself); example people made consistent across demos; copy fixes from review | 78 | Ecommerce and services 67 |
+
+- Round 3 added 7 points overall, mostly from the H1 endings. Under method 1, which let a long hero demo outweigh the H1, the endings had added 1.
+- A broader default lead ("more from the traffic you already have" instead of naming ads) dropped the fallback audience from 66 to 44 and left the overall unchanged. The owner kept the broader line.
+- What's left for ecommerce and services is mostly the testimonial row: no real quote from either, and none was invented. The remaining step is asking those customers.
+- All three labeling passes agreed on 87% of blocks in the first round and 96% in the last.

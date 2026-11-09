@@ -5,7 +5,7 @@ license: MIT
 compatibility: "Any Agent Skills-compatible client. A live RightMessage MCP connection is required for account operations; browser access or user-run checks are needed for visual and functional QA. Segment-fit scoring needs a browser the agent can run JavaScript in and Node 18 or later."
 metadata:
   author: "RightMessage"
-  version: '0.5.2'
+  version: '0.5.3'
 ---
 
 # Website personalization
@@ -56,6 +56,13 @@ A version change list compares its snapshot to the next state shown by `compared
 ### 2. Select a material treatment
 
 - Start from the gap ranking: each treatment names the gap it closes and the segment it serves.
+- **The H1 first.** A segment's own headline is one of the biggest single lines in the score (a quarter of the hero row) and the first thing a visitor reads. One pattern that works: keep the headline's shared start fixed and write a per-segment ending; unmatched visitors keep the page's own ending. If the varying words carry their own styling (a colored or bold phrase), the site wraps them in their own element so a text action replaces the words, not the styling; that wrapper is a site change for the handoff list. Personalize the lead line under it the same way.
+- **Fix a false offer two ways.** Give the segment a true next step (a demo or partner path instead of a trial it never gets), and hide the false button and its small print before the page's scripts run (rule 4 of [campaign-structure.md](references/campaign-structure.md)). Check which signals trigger the hide: a soft signal such as an interest click hides it for everyone who sent it, so confirm that with the user.
+- **Cut a component that repeats another section** instead of personalizing both. A hero demo that tells the same story as a section further down shows the answer twice, dilutes the headline, and adds page weight. Propose the cut as a site change and rescore after it.
+- **The default is a trade-off.** The default is the owner's page copy, which every unmatched visitor sees. Broad default copy can lower the fallback audience's score, which the overall leaves out. Show the user both numbers and let them choose; don't chase the fallback score. Changing the default is a site change for the handoff list.
+- **Leave alone what would read as a gimmick**, such as naming the segment on a "Book a demo" button. Record it as a deliberate choice with the points it costs.
+- **One story per segment.** Every component in a segment's version uses the same example people, platform names and business: a reader on one email platform shouldn't see another platform's lead, and a named example person keeps one surname across demos.
+- A picker that lets visitors switch a demo to another segment's story should start on the visitor's own segment and leave the default view unchanged. When scoring, capture only the state each version opens on, not every picker state, and say so; the picker then barely moves the score.
 - Choose one destination with an observable eligible audience. Do not fan out across the site to compensate for weak evidence on the first page.
 - State the hypothesis as signal → audience context → relevant message/proof/CTA → confirmed outcome.
 - Keep only distinctions that change the explanation, evidence, objection addressed, or next step. If variants mean the same thing, consolidate them.
@@ -119,6 +126,7 @@ A version change list compares its snapshot to the next state shown by `compared
 - Use the preview mode supported by the live tool. If inactive-draft or unforced behavior cannot be exercised, mark those checks pending; do not activate or publish merely to obtain evidence.
 - Check desktop and mobile readability, wrapping, layout, accessible link/button meaning, original-page fallback, and absence of competing element writes.
 - Verify existing form validation, submission, redirect, offer terms, attribution fields, and the confirmed-success event. Use only approved test identities and submission paths; incognito does not prevent external writes.
+- Check each segment's version reads as one story: the same example people, platform and business across every component, and no offer that's false for it visible at first paint (its text may still be in the HTML, hidden).
 - Record each case as pass, fail, or unverified with evidence. A generated link is not a completed browser test.
 - **Rescore segment fit on the draft:** fresh captures from the new preview links, the same audiences and offer rules, three new labeling passes, then `segment-fit.mjs compare` for before and after per segment. Report these as draft preview scores, not proof of natural matching or lift. Iterate while a segment's biggest loss is still something the campaign can fix.
 - **Checkpoint:** the QA record distinguishes stored-draft checks, forced rendering, natural routing, and downstream outcome verification.
@@ -130,6 +138,8 @@ A version change list compares its snapshot to the next state shown by `compared
 - Label status precisely: proposed, inactive draft built, stored draft verified, browser QA complete, published, or production verified. Do not collapse these stages.
 - Publishing is project-wide. A later publish request requires explicit approval of the **full current diff**, including unrelated draft changes, final activation states, copy, functional/mobile QA, and an exact rollback version/plan.
 - Recheck the version/diff immediately before any separately authorized release. A cutover that disables old campaigns while replacements remain inactive is blocked, not ready.
+- **Site changes deploy before the configuration that targets them.** Site changes are the owner's, on the handoff list. When the campaigns target new elements, per-segment markup or CSS keyed on a signal, confirm the site deploy that adds them succeeded before the publish; a passing development build isn't proof, because a hosting build can fail where it succeeds. Keep every element the published configuration targets until the publish that stops targeting it, and remove it in a later deploy.
+- If the user separately authorizes you to make the site changes, change the content and structure the treatment needs and keep the owner's layout and visual design. Run the same build and checks the site's deploy or CI runs before pushing.
 - Restore/undo requires confirmation of its destructive scope and exact target version; do not roll back automatically after an error.
 - After an authorized release, read back published state and verify the natural production path separately. Until then, report production behavior as unverified.
 
