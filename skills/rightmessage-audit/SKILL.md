@@ -5,7 +5,7 @@ license: MIT
 compatibility: Works best with a connected RightMessage MCP server and a client that can fetch web pages. Without a connection, run the site review and conversation and label the result planning only. Works with any Agent Skills-capable client.
 metadata:
   author: RightMessage
-  version: '0.4.4'
+  version: '0.4.5'
 ---
 
 # RightMessage audit
@@ -52,7 +52,8 @@ Collect at least:
 - Every domain the project uses, and whether tracking is live: `get-data-status`, plus hosts from campaigns, flows and publish history.
 - Where visitors come from and land: `get-traffic-analytics` (landing pages, most viewed pages, UTM sources and mediums, referrers).
 - Paid ads, if Meta Ads is connected: `get-ads-report` (landing pages with spend and no live campaign, ads with no audience, conflicts). If the project doesn't have Meta Ads, use UTM data.
-- What's already running: campaigns with `get-campaign-performance` (personalized versus held back), goals with `list-goals` and `get-goal-performance`, flows with `get-flow-performance` (where they run and where people stop), widgets, offers, and Lead alert rules with `list-lead-alert-rules` and `list-lead-alerts` (who they flagged, whether anything is held).
+- What's already running: campaigns with `list-campaigns`, `get-campaign` for every active one and `get-campaign-performance` (personalized versus held back), goals with `list-goals` and `get-goal-performance`, flows with `get-flow-performance` (where they run and where people stop), widgets, offers, and Lead alert rules with `list-lead-alert-rules` and `list-lead-alerts` (who they flagged, whether anything is held).
+- The page map: for every page, which campaign variants change it, for which audience, what they change, and what share of the page's visitors any of those audiences reaches. Details in account-pull.md.
 - What's collected and where it goes: segment groups and questions, integrations, `get-dimension-sync-data`.
 - Revenue, if Stripe is connected: `get-segment-revenue`.
 - Recent changes, who is doing the work now, and unpublished draft work: `get-publish-history`, `list-config-versions`.
@@ -90,7 +91,7 @@ Record each answer in the user's own words.
 Build the full list of ideas from the evidence, the user's answers, the business type's usual plays and the play catalog in [references/router.md](references/router.md). Then reply with two parts:
 
 **The top three.** For each one:
-- What changes, on which page, for which visitors, and the signal that identifies them.
+- What changes, on which page, for which visitors, and the signal that identifies them. Start with what already runs on that page (from the page map), then what this idea adds or replaces.
 - Why: the evidence, with numbers and dates.
 - A sample of the new copy, using the site's own voice. Mark it as a draft.
 - Projected impact (see below).
@@ -106,6 +107,8 @@ Build the full list of ideas from the evidence, the user's answers, the business
 **Projected impact** is arithmetic on the account's own numbers, never a promise. Follow [references/impact.md](references/impact.md): eligible visitors a month × current conversion rate × an assumed lift range = extra results a month, then to revenue with the user's value per result. When the money step isn't measured, it tells you which step to use instead and how to label it. Always show the inputs and the assumed lift, and say plainly that it's a scenario.
 
 **Measurement goes inside the ideas, not ahead of them.** When the money step isn't measured, say so once, then make "measure [result]" part of each idea that depends on it (the goal it needs, on which domain). Put measurement in the top three on its own only when it blocks reading something already running, such as a holdback that can't be read.
+
+**Start from what's already on the page.** Before writing any idea, read the page map for its page. Name the existing changes and the audiences they cover before saying what's missing. An idea that touches an element or audience an existing campaign already changes extends or replaces that change (a new variant in the same campaign, a reworded change, a wider audience) and says so. Never describe a personalized page as untouched, never propose a change an existing variant already makes, and never promise a holdback or test the campaign doesn't have; when it's off, turning it on is part of the idea.
 
 Rank by this order:
 1. Anything that breaks or embarrasses a launch, sale or deadline coming up.

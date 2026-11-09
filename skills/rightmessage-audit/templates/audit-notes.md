@@ -24,6 +24,12 @@ Unknown or unavailable:
 | --- | --- | --- | --- | --- |
 | | | | | |
 
+## Already personalized (page map)
+
+| Page | Campaign and variant | Audience | What it changes | Holdback | Share of page visitors matched |
+| --- | --- | --- | --- | --- | --- |
+| | | | | | |
+
 ## What you told me
 
 - Business type and modifiers (paid traffic, launch or deadline, second side, domains):
