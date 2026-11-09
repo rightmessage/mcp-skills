@@ -5,7 +5,7 @@ license: MIT
 compatibility: "Any Agent Skills-compatible client. A live RightMessage MCP connection is required for account operations; browser access or user-run checks are needed for visual and functional QA. Segment-fit scoring needs a browser the agent can run JavaScript in and Node 18 or later."
 metadata:
   author: "RightMessage"
-  version: '0.5.1'
+  version: '0.5.2'
 ---
 
 # Website personalization
@@ -48,7 +48,7 @@ A version change list compares its snapshot to the next state shown by `compared
 - If the brief (for example from an audit) includes a segment-fit run for this page and the draft hasn't changed since, reuse its `scores.json` and report as the before scores instead of rescoring.
 - List every offer on the page that is untrue for some segment (a trial a plan never gets, a price or region that doesn't apply) as a `falseClaims` rule before scoring.
 - From the report and screenshots, write the component table: one row per demo, logo wall, testimonial set, CTA, FAQ and video, personalized or not, and who it speaks to.
-- Show the user the score per segment, overall, and each segment's biggest losses before proposing copy. Rank gaps by points lost, worst-served segment first; a false offer comes first.
+- Show the user the score per segment, overall, and each segment's biggest losses before proposing copy, including an H1 that's the same on every version. Rank gaps by points lost, worst-served segment first; a false offer comes first.
 - Gaps the campaign can't close (a missing testimonial from a segment, a component that renders one story for everyone, a missing link) go on a site-owner handoff list with the points they cost.
 - Without a browser or Node, give the gap list in words, label it unscored, and don't estimate numbers.
 - **Checkpoint:** before scores, gap ranking, component table and false offers recorded in the workbook.

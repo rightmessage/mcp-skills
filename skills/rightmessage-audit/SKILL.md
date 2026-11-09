@@ -5,7 +5,7 @@ license: MIT
 compatibility: Works best with a connected RightMessage MCP server and a client that can fetch web pages. Segment-fit scoring needs a browser the agent can run JavaScript in and Node 18 or later; without them it reports the gaps unscored. Without a connection, run the site review and conversation and label the result planning only. Works with any Agent Skills-capable client.
 metadata:
   author: RightMessage
-  version: '0.5.2'
+  version: '0.5.3'
 ---
 
 # RightMessage audit

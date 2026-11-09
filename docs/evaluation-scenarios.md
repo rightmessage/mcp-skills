@@ -67,5 +67,6 @@ These are review/evaluation inputs, not claimed test executions. Run against a d
 | Splitting a campaign with `duplicate-campaign` | Sets every copy inactive and sets its goal IDs and testing by the rules, reads them back, keeps each action in exactly one campaign including the sitewide remainder, says reporting history restarts; doesn't publish |
 | Page campaigns with no holdback, configuration above the sharding threshold, and a sitewide campaign exists | Goals go on the sitewide campaign; tells the user the page campaigns show no results or goal credit of their own |
 | Per-segment UI shown by CSS on a signal element | Puts the CSS in the site's stylesheet as a handoff, not a campaign action; keeps a default version for unmatched and holdback visitors |
+| Segment versions differ in a long hero demo but share one H1 and subhead | Hero row drops for those segments (the headline is half of it); the report flags the identical H1 |
 
 For every evaluated scenario, record **observed / failed / not run** and supporting evidence. Use expected outputs only as acceptance criteria, never as fabricated execution results.

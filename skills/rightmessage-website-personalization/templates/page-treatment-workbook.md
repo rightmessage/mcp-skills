@@ -25,7 +25,7 @@ Computed by `scripts/segment-fit.mjs` from browser captures and three labeling p
 - Offer rules (`falseClaims`) and their source: [rule, phrase on the page, source]
 - Labeling: [passes valid of run; agreement]
 
-| Segment | Before: their version (UI hero / text hero) | Before: on the default page | Biggest losses | After (draft preview) | Change |
+| Segment | Before: their version | Before: on the default page | Biggest losses | After (draft preview) | Change |
 |---|---|---|---|---|---|
 | [segment] | [score] | [score or not found] | [rows and points] | [score] | [delta] |
 | Unmatched visitors ([fallback audience]) | Not applicable | [score] | [rows and points] | [score] | [delta] |

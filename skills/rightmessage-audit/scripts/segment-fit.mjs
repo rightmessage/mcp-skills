@@ -13,6 +13,8 @@ import { dirname, resolve, join } from "node:path";
 // Weights, curves and levels. Share metrics map a fraction through a log-normal curve: `good` scores 90,
 // `median` scores 50. Rows that don't apply leave the denominator.
 const METRICS = {
+  // Half headline, half the whole hero (demo included), so a long demo can't drown out a headline that never names
+  // them. The headline is itself half the H1 and half the lines right after it, so the H1 counts on its own.
   hero: { label: "Hero, written for them", weight: 25, good: 0.5, median: 0.15 },
   rest: { label: "Rest of the page, written for them", weight: 15, good: 0.3, median: 0.08 },
   proof: { label: "Testimonials from people like them", weight: 20, good: 0.34, median: 0.1 },
@@ -24,6 +26,8 @@ const BUTTON_LEVELS = { speaks_to_them: 1, generic: 0.6, speaks_to_others: 0.2, 
 const MIN_COVERAGE = 0.6;
 const UNLABELLED_LIMIT = 0.1;
 const PAGE_TYPES = ["home", "page"];
+// Bump when a change to the rubric or the hero changes scores, so compare refuses to mix methods.
+const METHOD = 2;
 
 const [command, ...args] = process.argv.slice(2);
 function read(p) {
@@ -210,6 +214,24 @@ function shareRow(id, count, of) {
   const spec = METRICS[id];
   return { id, status: "measured", value, count, of, score: Math.round(100 * curve(value, spec.good, spec.median)) };
 }
+// The hero row: the mean of the headline score and the whole hero's curve score. The headline score is the mean of the
+// H1's and the following lines' curve scores. A part with no selling words drops out; with none, the row is not checked.
+function heroRow(h1, after, whole) {
+  const spec = METRICS.hero;
+  const score = ([c, of]) => (of > 0 ? curve(c / of, spec.good, spec.median) : null);
+  const mean = (xs) => (xs.some((x) => x !== null) ? xs.filter((x) => x !== null).reduce((a, b) => a + b, 0) / xs.filter((x) => x !== null).length : null);
+  const headline = mean([score(h1), score(after)]);
+  const total = mean([headline, score(whole)]);
+  if (total === null) return { id: "hero", status: "not_checked", note: "no selling text" };
+  return {
+    id: "hero",
+    status: "measured",
+    h1: h1[1] > 0 ? h1[0] / h1[1] : null,
+    headline: headline === null ? null : Math.round(100 * headline),
+    value: whole[1] > 0 ? whole[0] / whole[1] : null,
+    score: Math.round(100 * total),
+  };
+}
 const levelRow = (id, levels, level, note) => ({ id, status: "measured", level, note, score: Math.round(100 * levels[level]) });
 
 function scoreRows(rows) {
@@ -256,18 +278,15 @@ function measure(run, version, audience, labelOf) {
         ? levelRow("route", ROUTE_LEVELS, routeFact.level, routeFact.evidence ?? "")
         : { id: "route", status: "not_checked" };
 
-  const rowsFor = (heroKey) => {
-    const [hc, ho] = share(main.filter((b) => b[heroKey]));
-    const [rc, ro] = share(main.filter((b) => !b[heroKey]));
-    return [shareRow("hero", hc, ho), shareRow("rest", rc, ro), shareRow("proof", testimonials.filter(isFor).length, testimonials.length), route, button];
-  };
-  const rows = rowsFor("heroUi");
-  const textRows = rowsFor("heroText");
+  const [rc, ro] = share(main.filter((b) => !b.heroUi));
+  // The headline counts only inside the hero, and only when the page has an H1.
+  const hasH1 = main.some((b) => b.inH1);
+  const headlineBlocks = hasH1 ? main.filter((b) => b.heroText && b.heroUi) : [];
+  const rows = [heroRow(share(headlineBlocks.filter((b) => b.inH1)), share(headlineBlocks.filter((b) => !b.inH1)), share(main.filter((b) => b.heroUi))), shareRow("rest", rc, ro), shareRow("proof", testimonials.filter(isFor).length, testimonials.length), route, button];
   const found = mineWords > 0;
   return {
     version: version.id,
     score: found ? scoreRows(rows) : null,
-    textHeroScore: found ? scoreRows(textRows) : null,
     notFound: !found,
     pageShare: sellingWords ? mineWords / sellingWords : 0,
     rows,
@@ -372,6 +391,8 @@ function score(runPath) {
   const testimonials = unique
     .filter((b) => labels[b.u - 1].testimonial && b.kind !== "heading")
     .map((b) => ({ text: b.text, speaksTo: labels[b.u - 1].ids }));
+  // The H1 each version shows; the same H1 on every segment's version is a loss the share can't show on its own.
+  const headlines = versions.map((v) => ({ version: v.id, audience: v.audience, text: v.blocks.filter((b) => b.zone === "main" && b.inH1).map((b) => b.text).join(" ") || null }));
   const ctas = versions.map((v) => ({
     version: v.id,
     mainCta: v.mainCta?.text ?? null,
@@ -381,11 +402,12 @@ function score(runPath) {
   const result = {
     page: run.page,
     pageType: run.pageType ?? "page",
+    method: METHOD,
     scoredAt: new Date().toISOString(),
     passes: { files, valid: passes.filter((p) => p.valid).length, agreement },
     uniqueBlocks: unique.length,
     overall: mean("score"),
-    overallTextHero: mean("textHeroScore"),
+    headlines,
     notFound,
     unscored,
     audiences,
@@ -402,12 +424,12 @@ function score(runPath) {
 function renderReport(r, run) {
   const name = Object.fromEntries(run.audiences.map((a) => [a.id, a.name]));
   const s = (m) => (m.notFound ? "not found" : m.score === null ? "not scored" : `${m.score}`);
-  const pair = (m) => (m ? `${s(m)} / ${m.notFound ? "n/a" : m.textHeroScore ?? "n/a"}` : "no version");
+  const pair = (m) => (m ? s(m) : "no version");
   const out = [];
   out.push(`# Segment fit: ${r.page}`, "");
   const named = (ids) => ids.map((id) => name[id]).join(", ");
-  out.push(`Overall: **${r.overall ?? "n/a"}** (hero = everything above the first section heading; ${r.overallTextHero ?? "n/a"} with the text-only hero). Equal-weight mean over the segments, each on the version they see.${r.notFound.length ? ` ${named(r.notFound)}: not found, counted as 0.` : ""}${r.unscored.length ? ` ${named(r.unscored)}: too little measured to score, left out.` : ""}`, "");
-  out.push("| Audience | Their version (UI hero / text hero) | On the default page | Share of page words for them |", "| --- | --- | --- | --- |");
+  out.push(`Overall: **${r.overall ?? "n/a"}**. Equal-weight mean over the segments, each on the version they see.${r.notFound.length ? ` ${named(r.notFound)}: not found, counted as 0.` : ""}${r.unscored.length ? ` ${named(r.unscored)}: too little measured to score, left out.` : ""}`, "");
+  out.push("| Audience | Their version | On the default page | Share of page words for them |", "| --- | --- | --- | --- |");
   for (const a of r.audiences) {
     const label = a.fallback ? `${a.name} (unmatched visitors)` : a.name;
     out.push(`| ${label} | ${a.own ? pair(a.own) : "no version"} | ${pair(a.onDefault)} | ${pct(a.served.pageShare)} |`);
@@ -420,6 +442,7 @@ function renderReport(r, run) {
       if (row.status === "not_applicable") return "n/a";
       if (row.status === "not_checked") return row.note ?? "not checked";
       if (row.id === "proof") return `${row.score} (${row.count} of ${row.of})`;
+      if (row.id === "hero") return `${row.score} (H1 ${pct(row.h1)}, headline score ${row.headline ?? "n/a"}, whole hero ${pct(row.value)})`;
       if (row.level) return `${row.score} (${row.level.replace(/_/g, " ")})`;
       return `${row.score} (${pct(row.value)})`;
     });
@@ -445,6 +468,11 @@ function renderReport(r, run) {
   out.push("", "## Testimonials", "", "| Testimonial | Speaks to |", "| --- | --- |");
   for (const t of r.testimonials) out.push(`| ${t.text.slice(0, 90).replace(/\|/g, "/")}${t.text.length > 90 ? "…" : ""} | ${t.speaksTo.map((id) => name[id]).join(", ") || "everyone"} |`);
   if (r.testimonials.length === 0) out.push("| (none found) | |");
+  out.push("", "## Headline", "", "| Version | H1 |", "| --- | --- |");
+  for (const h of r.headlines) out.push(`| ${h.version} | ${(h.text ?? "none").replace(/\|/g, "/")} |`);
+  const first = r.headlines[0].text;
+  if (r.headlines.some((h) => h.audience !== null) && first !== null && r.headlines.every((h) => h.text !== null && norm(h.text) === norm(first)))
+    out.push("", "**The H1 is the same on every version.** It's the first line every visitor reads; a headline that names each segment's situation usually matters more than its word count shows.");
   out.push("", "## Buttons and offers", "", "| Version | Main button | Every button in the page body |", "| --- | --- | --- |");
   for (const c of r.ctas) out.push(`| ${c.version} | ${c.mainCta ?? "none"} | ${c.buttons.join("; ").replace(/\|/g, "/")} |`);
   const falseClaims = r.audiences.flatMap((a) => a.served.falseClaims.map((f) => `- **${a.name}** sees “${f.block}”${f.hero ? " in the hero" : ""}: ${f.rule}`));
@@ -459,6 +487,10 @@ function renderReport(r, run) {
 function compare(beforePath, afterPath) {
   const before = read(beforePath);
   const after = read(afterPath);
+  if ((before.method ?? 1) !== (after.method ?? 1)) {
+    const older = (before.method ?? 1) < (after.method ?? 1) ? beforePath : afterPath;
+    fail(`the two runs were scored with different methods (${before.method ?? 1} and ${after.method ?? 1}); run score again on the folder of ${older}, then compare`);
+  }
   const b = Object.fromEntries(before.audiences.map((a) => [a.id, a]));
   const fmt = (m) => (!m ? "–" : m.served.notFound ? "not found" : m.served.score ?? "n/a");
   const delta = (x, y) => (typeof x === "number" && typeof y === "number" ? `${y - x >= 0 ? "+" : ""}${y - x}` : "–");
@@ -482,6 +514,8 @@ if (command === "prepare" && args[0]) {
     const main = v.blocks.filter((b) => b.zone === "main");
     const hero = main.filter((b) => b.heroUi).length;
     console.log(`${v.id}: ${main.length} blocks, ${hero} in the hero, main button: ${v.mainCta?.text ?? "none"}`);
+    if (main.some((b) => b.inH1 && !b.heroUi))
+      console.log(`  warning: ${v.id}'s H1 is outside the hero, so the headline isn't scored. A heroSelector must contain the H1; recapture with one that does.`);
     if (hero <= 2 || !v.mainCta)
       console.log(`  warning: ${v.id}'s hero looks empty or has no button. An H2 subhead or screen-reader H2 right after the H1 ends the hero early; recapture with window.SEGMENT_FIT_OPTIONS = { heroSelector: "..." }.`);
   }

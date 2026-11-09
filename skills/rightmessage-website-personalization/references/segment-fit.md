@@ -20,7 +20,7 @@ Scores run 0 to 100. Share rows map a share through a curve: the "good" share sc
 
 | Row | Weight | Scored from | Good / median |
 | --- | --- | --- | --- |
-| Hero, written for them | 25 | Share of the hero's selling words labeled for them | 50% / 15% |
+| Hero, written for them | 25 | Half the headline, half the whole hero. The headline is half the H1 and half the lines right after it. Each part's share of selling words labeled for them goes through the curve, and the parts are averaged; a part with no selling words drops out | 50% / 15% |
 | Rest of the page, written for them | 15 | Same, for everything below the hero | 30% / 8% |
 | Testimonials from people like them | 20 | Testimonials whose speaker is one of them, of all testimonials | 34% / 10% |
 | A link to their own page | 10 | Homepages only: nav or hero 100, page body 70, another page 40, sitemap only 15, none 0 | |
@@ -29,7 +29,7 @@ Scores run 0 to 100. Share rows map a share through a curve: the "good" share sc
 - A row that doesn't apply (the link row on a page that isn't the homepage) leaves the weighted average. A row not checked (no link fact given, or a hero or body with no selling text) lowers coverage; under 60% coverage the audience gets no score. A page with no testimonials scores 0 on that row: missing proof counts as missing.
 - An audience with no line labeled for them on that version is **not found**: nothing on the page tells them it's for them.
 - **Overall** is the plain average over the segments, with a not-found segment counted as 0, so closing that gap can only raise it. The report names any segment left out for too little coverage. The fallback audience (unmatched visitors) is reported but not averaged in.
-- **Hero.** The report leads with the UI hero: everything in the page body above the first H2 after the H1 (a screen-reader-only H2 counts, since it marks a section), including a demo, video or product mockup there (smaller headings inside a mockup stay in the hero). It also shows the text hero the free check uses (6 blocks starting at the H1, stopping at the next heading). When a page's hero is not "everything above the first heading", set `window.SEGMENT_FIT_OPTIONS = { heroSelector: "..." }` before running the extractor and say which selector you used.
+- **Hero.** The whole hero is everything in the page body above the first H2 after the H1 (a screen-reader-only H2 counts, since it marks a section), including a demo, video or product mockup there (smaller headings inside a mockup stay in the hero). The headline is the H1 and the blocks right after it inside the hero: 6 blocks starting at the H1, stopping at the next heading, the hero the free check uses. The headline and the whole hero each count for half the hero row, and within the headline the H1 counts for half, so a long personalized demo can't hide an H1 that never names the visitor. A page with no H1 has no headline part, and the row is the whole hero alone. The report also lists each version's H1 and flags an H1 that's the same on every version. When a page's hero is not "everything above the first heading", set `window.SEGMENT_FIT_OPTIONS = { heroSelector: "..." }` before running the extractor and say which selector you used. The selector must contain the H1, or the headline part isn't scored; `prepare` warns when it doesn't.
 
 ## 1. Choose the audiences
 
@@ -110,7 +110,7 @@ Then rescore against the draft:
 
 1. New preview links (they load the draft), fresh captures into a new folder (confirm each version renders the treatment; if the preview can't show an inactive draft, mark the rescore pending rather than retrying or activating anything), the same `run.json` audiences, `route` and `falseClaims`, updated only for links you actually added.
 2. `prepare`, three new labeling passes, `score`.
-3. `node <skill-dir>/scripts/segment-fit.mjs compare before/scores.json after/scores.json` prints the before and after per audience and overall.
+3. `node <skill-dir>/scripts/segment-fit.mjs compare before/scores.json after/scores.json` prints the before and after per audience and overall. It refuses runs scored by different versions of the method; rerun `score` on the before folder first (its captures and labels still apply).
 
 If no signed-in preview is possible, either rescore after an approved publish (published version, as above), or apply the draft's changes in the page yourself from the manifest you sent (not from readback, which can shorten long text), and label every after score "draft applied by hand, not rendered by RightMessage".
 
