@@ -1,11 +1,11 @@
 ---
 name: rightmessage-paid-traffic
-description: Match a RightMessage landing page to the ad that earned the click. Use for paid-traffic personalization, the Meta Ads integration and its Ads report, UTM or URL-token segmentation, ad landing pages with no campaign, ad-angle copy, and validation of real arrival signals and fallbacks.
+description: Match a RightMessage landing page to the ad that earned the click. Use for paid-traffic personalization, the Meta Ads integration and its Ads report (mapping ads to segments, reviewing suggestions and proposals, landing-page checks), UTM or URL-token segmentation, ad landing pages with no campaign, ad-angle copy, ad campaign goals and holdbacks, and validation of real arrival signals and fallbacks.
 license: MIT
 compatibility: Requires an authorized RightMessage MCP connection for account operations. Real click-URL evidence and browser access are needed for routing QA. Ad-platform access is separate and optional.
 metadata:
   author: RightMessage
-  version: '0.2.0'
+  version: '0.3.0'
 ---
 
 # Paid-traffic message matching
@@ -36,10 +36,20 @@ When the audit handed this job over, start from its brief (page, audiences, sign
 
 ## Two ways an ad becomes an audience
 
-- **Meta Ads integration** (when connected to the project). `get-ads-report` lists each ad's copy, link and landing page, spend, clicks, visitors and conversions, the segments each ad maps to, landing pages with spend and no live campaign, ads with no audience, suggestions waiting for review, conflicts with the project's own URL rules, and audiences no ad speaks to. Pass `goal_id` for the conversion the business is judged on. Mapping ads to segments, accepting or dismissing suggestions and queuing a sync change the project; each needs the user's approval like any other write. RightMessage never creates, edits or pauses ads.
+- **Meta Ads integration** (when connected to the project). `get-ads-report` lists each ad's copy, link and landing page, spend, clicks, visitors and conversions, the segments each ad maps to, landing pages with spend and no live campaign, ads with no audience, suggestions waiting for review, conflicts with the project's own URL rules, and audiences no ad speaks to. Pass `goal_id` for the conversion the business is judged on. Mapping ads to segments, accepting or dismissing suggestions and queuing a sync change the project; each needs the user's approval like any other write. RightMessage never creates, edits or pauses ads. Follow [references/meta-ads-workflow.md](references/meta-ads-workflow.md) for the report's fields, the mapping tools and the order of work.
 - **URL parameters on any ad platform.** A segment rule reads a link parameter such as an ad ID, `utm_content` or an explicit token. Sections 2 and 3 below apply.
 
 Either way, new ads keep appearing. A page that matched most of its ad arrivals last month can drop as new ad sets launch. Check the share of ad arrivals that match an audience (`get-audience-breakdown` on that page and source, or the ads report's no-audience list) and map new ads as they appear.
+
+### With the Meta integration, recommend before you write
+
+1. **Read** every page of `get-ads-report` (`limit` up to 100, loop on `has_more`), the campaigns and goals on each ad landing page, the segment groups and which ones sync to the email platform, and the live landing pages themselves.
+2. **Recommend** in the [ads recommendation](templates/ads-recommendation.md): who each running ad speaks to (agree or change each suggestion, quoting the ad), proposals to accept, dismiss or defer, which pages get a campaign, copy drafts per audience, goal and holdback, and the exact writes with real IDs.
+3. **Wait for explicit approval** of those writes. An owner's "we don't want this group" becomes "no segment in this group" on every ad plus dismissed proposals, never a deleted group. New or edited ads can be classified into that group again, so keep review mode and clear it at each review.
+4. **Write in order:** proposals, ad mappings (`accept-new-ad-segments` by creative key, `set-ad-segments` by ad ID), goals, then campaigns created inactive. Ad mappings go live at once with no publish step (except in a never-published project or for a segment only the draft has), so check which active campaigns already use those segments, then read the mappings back.
+5. **Publish** only with its own approval, as in section 6.
+
+Pitfalls this flow catches: ads sharing one tracking link (they can't be told apart), several ad URLs that redirect to one page (one campaign, not two), `goalStatus.reason: no_live_campaign_goal` (goals exist, none on a landing campaign), goal page rules that put a query string in the path (never match), thank-you goals aimed at the wrong confirmation page, and the holdback left off.
 
 ## 1. Build a promise-to-page map
 
@@ -125,6 +135,7 @@ Document key/source, allowed values, lifetime, precedence, evidence, and fallbac
 - Ad-name coverage is not traffic coverage; attribution labels are not personal identity.
 - A correct forced preview can hide broken signals, stale state, overlapping actions, or a broken form.
 - Dynamic text phrases replace text for every matched visitor and ignore campaign holdbacks. Phrase-driven copy on a measured page leaks into the control group; put audience copy in the campaign instead.
+- [ ] With the Meta integration: every report page read, recommendation approved before any mapping or proposal write, owner exclusions applied as "no segment", shared tracking links handed off.
 - [ ] Real arrival evidence and stable token/precedence/lifetime rules established, or explicitly provisional.
 - [ ] Meaningful, sourced copy; unique page-scoped targeting; inactive full manifest read back.
 - [ ] Goal/control policy, original fallback, exclusions, desktop/mobile, and natural-routing QA recorded.
