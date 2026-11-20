@@ -5,7 +5,7 @@ license: MIT
 compatibility: "Any Agent Skills-compatible client. A live RightMessage MCP connection is required for account operations; browser access or user-run checks are needed for visual and functional QA. Segment-fit scoring needs a browser the agent can run JavaScript in and Node 18 or later."
 metadata:
   author: "RightMessage"
-  version: '0.5.3'
+  version: '0.5.4'
 ---
 
 # Website personalization
@@ -91,8 +91,7 @@ A version change list compares its snapshot to the next state shown by `compared
 - Check fallback selector matches on desktop and mobile. Ambiguous responsive duplicates, broad containers, and selectors that reach form controls are not acceptable shortcuts; leave the edit blocked or untouched.
 - Structure campaigns for speed ([references/campaign-structure.md](references/campaign-structure.md)): scope each campaign to the narrowest pages it serves (one per personalized page; one per shared-block pattern such as `/blog/*`; one on a list of pages only for a cross-page story with one holdback; at most one small sitewide campaign). A site-wide pattern (`*`, `/*`), an empty "contains", "starts with" or "ends with", a negated rule, or no page criteria anywhere in a campaign or its attached goals keeps the whole campaign in the core tag every page loads, so avoid them except for a goal measurement needs. A goal's event pages join the criteria of every campaign it's attached to, so above the sharding threshold and with a sitewide campaign, goals sit on the sitewide campaign unless a page campaign's holdback or test needs one; tell the user page campaigns then show no results of their own. Put first-screen copy on server-rendered elements so RightMessage Edge can write it. Splitting an existing campaign restarts its holdback read; do it only when the user accepts that.
 - Give every action explicit page scope even when the campaign has `base_url`. Verify the scope matches only the intended destination.
-- Keep independently composable dimensions in separate campaigns with disjoint element ownership. Check actual matched elements, not merely whether selector strings differ.
-- Use peer variants within one campaign only for alternatives that should not stack. Do not multiply every dimension into a cross-product by default.
+- Layer independently composable dimensions (segment groups) in one campaign per page: one variant per segment, each group owning its own elements. Every variant whose rules match is applied and the campaign keeps one holdback, so layers stack. Segments in one group are alternatives. Two variants that change the same element overwrite each other (the later variant wins), so keep element ownership disjoint; check actual matched elements, not merely whether selector strings differ. Separate campaigns on one page each keep their own holdback, so neither control group is clean. Do not multiply every dimension into a cross-product by default.
 - **Checkpoint:** every action has an approved value, verified target, page scope, and one owning campaign.
 
 ### 5. Verify the goal and control policy
@@ -109,7 +108,7 @@ A version change list compares its snapshot to the next state shown by `compared
 
 - Reuse existing suitable resources without erasing their settings. For a new campaign, create an empty inactive shell with explicit `is_active=false`, `base_url`, goal IDs, and the approved testing policy.
 - Probe an intended action in that approved new shell before bulk construction. Never strip an existing campaign's actions merely to run a probe.
-- Supply `segment_ids` as a comma-separated string of actual returned segment IDs, not an array; validate its matching semantics against the live schema.
+- Supply `segment_ids` as actual returned segment IDs, as a list or a comma-separated string. Several IDs in one change mean the visitor must match all of them; validate the matching semantics against the live schema.
 - `update-campaign` with `changes` replaces **ALL variants/actions**. Send the complete intended manifest, including unchanged actions that must remain; never send only the delta.
 - Preserve complete replacement arrays for campaign `changes`, group `signals`, and goal `events`. Keep before/after manifests for review and recovery.
 - Read back each campaign after mutation: inactive state, testing settings, goal IDs, variant/action counts, audience rules, values, targeting, and per-action page scopes.

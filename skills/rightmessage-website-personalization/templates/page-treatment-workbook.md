@@ -70,7 +70,7 @@ Use a row for each material treatment. Explain why each difference helps; do not
 
 | Owning campaign/layer | Variant and actual segment IDs | Element's existing content | Exact page scope | Returned Smart Match targeting | Proposed action/value | Fallback only if validation rejects targeting | Evidence of unique match and disjoint ownership |
 |---|---|---|---|---|---|---|---|
-| [actual or proposed campaign] | [IDs; serialize segment_ids as a comma-separated string] | [baseline] | [required even with base_url] | [returned structure] | [live-schema action] | [rejection evidence plus verified selector, or none] | [desktop/mobile results; no shared matched elements] |
+| [actual or proposed campaign] | [IDs; segment_ids as a list or comma-separated string] | [baseline] | [required even with base_url] | [returned structure] | [live-schema action] | [rejection evidence plus verified selector, or none] | [desktop/mobile results; no shared matched elements] |
 
 - `get-page-elements` inspection evidence: [target URL and rendered context]
 - Representative action validation: [accepted shape or compatibility blocker]

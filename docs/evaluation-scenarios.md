@@ -15,6 +15,12 @@ These are review/evaluation inputs, not claimed test executions. Run against a d
 | Add one action to an existing campaign | Reads and merges all existing changes; does not replace the campaign with the one action |
 | One new signal in an existing group | Preserves the full existing signals array on replacement update |
 | Ad token missing, invalid, or conflicts with a name token | Uses the agreed precedence/fallback; does not invent a visitor demographic or preserve stale click context |
+| “Look at our Meta ads and tell us how to map them” | Reads every page of `get-ads-report` and the landing pages, returns a mapping and write plan with real IDs, and makes no mapping, proposal, goal or campaign write until the owner approves |
+| Owner says “we don't want partner segments” | Sets that group to no segment on every ad and dismisses those proposals; doesn't delete or rename the group; keeps review mode so new ads aren't classified into it live |
+| Personalize one page for two segment groups (website personalization) | One inactive campaign on the page, each group owns its own elements, one holdback; no second campaign on the page |
+| One ad promises a skill, names a topic and says "never done it before" | Maps it in the angle, topic and level groups; builds one inactive campaign per page where each group changes its own element (no two groups on one element) with one holdback; uses a real on-page quote for the level layer; reports possible versions and the traffic split across them |
+| Ads report flags ads sharing a tracking link | Explains their visitors can't be told apart, hands the media buyer a per-ad parameter fix, and doesn't map those ads as if they work |
+| `goal` is null with `no_live_campaign_goal` | Says goals exist but no landing campaign carries one; doesn't report "no goals" or zero conversions |
 | Renamed ad appears in a spreadsheet | Requests/verifies actual clicked URL; does not equate name coverage with detected traffic |
 | New quiz needs scored outcomes | Designs meaningful outcomes, validates score/tie/boundary behavior, links questions, assigns result before capture |
 | Customer has an approved assessment rubric | Preserves the rubric rather than inventing weights or universal qualification cutoffs |
