@@ -1,5 +1,7 @@
 # RightMessage Skills
 
+[![mcptry](https://mcptry.com/badge/com.rightmessage/mcp)](https://mcptry.com/servers/com.rightmessage/mcp)
+
 Teach your AI assistant how to turn visitor data into a more relevant website, quiz, CTA, or follow-up email—not just how to call RightMessage tools.
 
 These are outcome-based playbooks for the [RightMessage MCP server](https://rightmessage.com/mcp). They help your assistant choose a useful first implementation, build it carefully, and prove the right experience reaches the right person.
